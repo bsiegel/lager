@@ -19,6 +19,20 @@ namespace LagerWP7 {
             this.Recent = new ObservableCollection<ItemViewModel>();
             this.Results = new ObservableCollection<ItemViewModel>();
 
+            this._timer = new DispatcherTimer {
+                Interval = TimeSpan.FromSeconds(5)
+            };
+
+            _timer.Tick += (o, e) => {
+                _timer.Stop();
+
+                ErrorText = null;
+
+                NotifyPropertyChanged("Loading");
+                NotifyPropertyChanged("ErrorText");
+                NotifyPropertyChanged("ErrorStatus");
+            };
+
             InitClient();
         }
 
@@ -118,19 +132,6 @@ namespace LagerWP7 {
             }
         }
 
-        public string ButtonCircleImageUrl {
-            get {
-                return App.LightThemeEnabled ? "basecircle.light.png" : "basecircle.dark.png";
-            }
-        }
-
-        public string ButtonHelpImageUrl {
-            get {
-                return App.LightThemeEnabled ? "questionmark.light.png" : "questionmark.dark.png";  
-            }
-        }
-
-
         /// <summary>
         /// A collection for ItemViewModel objects.
         /// </summary>
@@ -198,6 +199,7 @@ namespace LagerWP7 {
         }
 
         private int _loadCount = 0;
+        private DispatcherTimer _timer;
 
         public void ShowProgress(int count = 1) {
             if (_loadCount <= 0) {
@@ -205,6 +207,8 @@ namespace LagerWP7 {
             }
 
             _loadCount += count;
+
+            NotifyPropertyChanged("Loading");
         }
 
         public void HideProgress(int count = 1) {
@@ -213,31 +217,33 @@ namespace LagerWP7 {
             if (_loadCount <= 0) {
                 _loadCount = 0;
             }
+
+            NotifyPropertyChanged("Loading");
         }
 
         public bool Loading {
             get {
-                return _loadCount > 0;
+                return ErrorStatus ? false : _loadCount > 0;
             }
         }
 
         public void ShowError(string errorText) {
             if (ErrorText == null) {
+
                 ErrorText = errorText;
 
                 //schedule timer
-                var timer = new DispatcherTimer {
-                    Interval = TimeSpan.FromSeconds(5)
-                };
-                timer.Tick += (o, e) => {
-                    ErrorText = null;
-                };
+                _timer.Start();
+
+                NotifyPropertyChanged("Loading");
+                NotifyPropertyChanged("ErrorText");
+                NotifyPropertyChanged("ErrorStatus");
             }
         }
 
         public bool ErrorStatus {
             get {
-                return ErrorText == null;
+                return ErrorText != null;
             }
         }
 

@@ -24,21 +24,8 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
 
-
-        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0" Click="InfoButton_Click">
-            <Button.Template>
-                <ControlTemplate>
-                    <Grid>
-                        <Ellipse Width="32" Height="32" StrokeThickness="2" Stroke="{StaticResource PhoneForegroundBrush}" />
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="i" FontSize="24" Foreground="{StaticResource PhoneForegroundBrush}" />
-                    </Grid>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-
         <!--Panorama control-->
         <controls:Panorama Title="lager" Background="{Binding PanoramaBackgroundImage}">
-
  
             <controls:PanoramaItem Header="trending">
                 <ListBox Margin="0,0,-12,0" ItemsSource="{Binding Trending}">
@@ -54,78 +41,101 @@
             </controls:PanoramaItem>
 
             <controls:PanoramaItem Header="friends" Margin="0,0,0,0">
-                <ListBox Margin="0,0,-12,0" ItemsSource="{Binding Friends}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
-                                <Image Height="100" Width="100" Source="{Binding Image}" Margin="12,0,9,0"/>
-                                <StackPanel Width="318">                                    
-                                    <TextBlock Text="{Binding LineOne}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                                    <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                    <TextBlock Text="{Binding LineThree}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <Grid Margin="0,0,-12,0">
+                    <TextBlock x:Name="_needLoginBlock" Text="sign in to see friends' brews" Visibility="Collapsed" Style="{StaticResource PhoneTextLargeStyle}" />
+                    <ListBox x:Name="_friendsList" ItemsSource="{Binding Friends}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
+                                    <Image Height="100" Width="100" Source="{Binding Image}" Margin="12,0,9,0"/>
+                                    <StackPanel Width="318">
+                                        <TextBlock Text="{Binding LineOne}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                                        <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                        <TextBlock Text="{Binding LineThree}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
             </controls:PanoramaItem>
 
             <controls:PanoramaItem Header="profile">
-                <ListBox Margin="0,0,-12,0">
-                    <ListBoxItem x:Name="_loginItem" Visibility="Collapsed" Margin="0,0,-12,12">
-                        <Grid Width="418">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="user name" Style="{StaticResource PhoneTextLargeStyle}"/>
-                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="_loginUsername" />
-                            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="password" Style="{StaticResource PhoneTextLargeStyle}"/>
-                            <PasswordBox Grid.Row="1" Grid.Column="1" x:Name="_loginPassword" />
-                            <Button Grid.Row="2" Grid.ColumnSpan="2" Content="sign in" Click="SignIn_Click" />
-                            <TextBlock Grid.Row="3" Grid.ColumnSpan="2" x:Name="_loginFailure" FontWeight="Bold" TextWrapping="Wrap" Text="failure message" Visibility="Collapsed" />
-                        </Grid>
-                    </ListBoxItem>
-                    <ListBoxItem x:Name="_profileItem" Margin="0,0,-12,12">
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Height="100" Width="100" Source="{Binding ProfileImage}" Margin="12,0,9,0"/>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
-                                    <StackPanel Width="297">
-                                        <TextBlock Text="{Binding ProfileName}" TextWrapping="NoWrap"  Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                                        <TextBlock Text="{Binding ProfileCity}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                    </StackPanel>
+                <Grid Margin="0,0,-12,0">
+                    <Grid x:Name="_loginGrid" Width="418" Visibility="Collapsed" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="user name" Style="{StaticResource PhoneTextLargeStyle}"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="_loginUsername" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="password" Style="{StaticResource PhoneTextLargeStyle}"/>
+                        <PasswordBox Grid.Row="1" Grid.Column="1" x:Name="_loginPassword" />
+                        <Button Grid.Row="2" Grid.ColumnSpan="2" Content="sign in" Click="SignIn_Click" />
+                        <TextBlock Grid.Row="3" Grid.ColumnSpan="2" x:Name="_loginFailure" FontWeight="Bold" TextWrapping="Wrap" Text="failure message" Visibility="Collapsed" />
+                    </Grid>
+
+                    <Grid x:Name="_profileGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Height="100" Width="100" Source="{Binding ProfileImage}" Margin="12,0,9,0"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
+                                <StackPanel Width="297">
+                                    <TextBlock Text="{Binding ProfileName}" TextWrapping="NoWrap"  Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                                    <TextBlock Text="{Binding ProfileCity}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                                 </StackPanel>
                             </StackPanel>
-                            <TextBlock Margin="12,0,-12,17" Text="recent brews" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}" />
-                            <ItemsControl Margin="12,0,-12,0" ItemsSource="{Binding Recent}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
-                                            <StackPanel Width="406">
-                                                <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                                <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                                <TextBlock Text="{Binding LineThree}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextNormalStyle}"/>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
                         </StackPanel>
-                    </ListBoxItem>
-                </ListBox>
+                        <ListBox Grid.Row="1" Margin="0,12,-12,0" ItemsSource="{Binding Recent}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
+                                        <StackPanel Width="406">
+                                            <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
+                                            <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                            <TextBlock Text="{Binding LineThree}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Grid>
             </controls:PanoramaItem>
 
             <controls:PanoramaItem Header="search">
-                <StackPanel Orientation="Vertical">
-                    <TextBox Width="418" KeyUp="SearchBox_KeyUp" GotFocus="SearchBox_GotFocus" />
-                    <ListBox Margin="0,0,-12,0" ItemsSource="{Binding Results}">
+                <Grid Margin="0,0,-12,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Width="418" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="_searchBox" />
+                        <Button Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Click="SearchButton_Click">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Grid Background="Transparent">
+                                        <Ellipse Width="44" Height="44" StrokeThickness="3" Stroke="{StaticResource PhoneForegroundBrush}" />
+                                        <Path Data="F1M534.0898,314.6377L526.7168,321.5927L532.7128,321.5927L542.5758,312.2857L532.7558,303.0227L526.7618,303.0227L534.0898,309.9367L517.4628,309.9367L517.4628,314.6377z" Fill="{StaticResource PhoneForegroundBrush}" Height="18.57" Canvas.Left="489.103" Stretch="Fill" Canvas.Top="276.883" Width="25.113"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                    <ListBox Grid.Row="1" Margin="0,0,-12,0" ItemsSource="{Binding Results}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="418">
@@ -133,19 +143,30 @@
                                     <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                                 </StackPanel>
                             </DataTemplate>
-                            </ListBox.ItemTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
-                </StackPanel>
+                </Grid>
             </controls:PanoramaItem>
         </controls:Panorama>
 
-        <StackPanel Orientation="Vertical" x:Name="_progressStack" Height="20" VerticalAlignment="Bottom" Margin="0,0,0,0" Visibility="{Binding Loading, Converter={StaticResource VisibilityConverter}}" Background="{StaticResource PhoneSemitransparentBrush}">
+        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6,6,0" Click="InfoButton_Click">
+            <Button.Template>
+                <ControlTemplate>
+                    <Grid Background="Transparent">
+                        <Ellipse Width="26" Height="26" StrokeThickness="2" Stroke="{StaticResource PhoneSubtleBrush}" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="i" FontSize="17" Foreground="{StaticResource PhoneSubtleBrush}" />
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <StackPanel Orientation="Vertical" x:Name="_progressStack" Height="28" VerticalAlignment="Bottom" Margin="0,0,0,0" Visibility="{Binding Loading, Converter={StaticResource VisibilityConverter}}" Background="{StaticResource PhoneSemitransparentBrush}">
             <toolkit:PerformanceProgressBar x:Name="_progressBar" Margin="0,6,0,0" IsIndeterminate="{Binding Loading}" Foreground="{StaticResource PhoneForegroundBrush}" />
             <TextBlock x:Name="_progressText" Margin="0,0,0,2" HorizontalAlignment="Center" Text="Loading..." Style="{StaticResource PhoneTextNormalStyle}" FontSize="14" />            
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" x:Name="_errorStack" Height="20" VerticalAlignment="Bottom" Margin="0,0,0,0" Visibility="{Binding ErrorStatus, Converter={StaticResource VisibilityConverter}}" Background="{StaticResource PhoneSemitransparentBrush}">
-            <TextBlock x:Name="_errorText" Margin="0,0,0,2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontWeight="Bold" Text="{Binding ErrorText}" Style="{StaticResource PhoneTextNormalStyle}" FontSize="14" />
+        <StackPanel Orientation="Vertical" x:Name="_errorStack" Height="28" VerticalAlignment="Bottom" Margin="0,0,0,0" Visibility="{Binding ErrorStatus, Converter={StaticResource VisibilityConverter}}" Background="{StaticResource PhoneSemitransparentBrush}">
+            <TextBlock x:Name="_errorText" Margin="0,0,0,2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ErrorText}" Style="{StaticResource PhoneTextNormalStyle}" FontSize="18" />
         </StackPanel>
 
     </Grid>

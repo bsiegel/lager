@@ -9,6 +9,7 @@ using System;
 using System.Windows.Threading;
 using System.Windows.Data;
 using System.Globalization;
+using Microsoft.Phone.Tasks;
 
 namespace LagerWP7 {
     public partial class MainPage : PhoneApplicationPage {
@@ -47,8 +48,10 @@ namespace LagerWP7 {
                 //rehydrate credentials
                 if (CredentialUtility.LoadCredentials()) {
                     //show profile screen
-                    _loginItem.Visibility = Visibility.Collapsed;
-                    _profileItem.Visibility = Visibility.Visible;
+                    _loginGrid.Visibility = Visibility.Collapsed;
+                    _needLoginBlock.Visibility = Visibility.Collapsed;
+                    _profileGrid.Visibility = Visibility.Visible;
+                    _friendsList.Visibility = Visibility.Visible;
 
                     //re-initialize client with credentials
                     App.ViewModel.InitClient();
@@ -60,24 +63,14 @@ namespace LagerWP7 {
                     App.ViewModel.LoadPersonalFeeds();
                 } else {
                     //show login screen
-                    _profileItem.Visibility = Visibility.Collapsed;
-                    _loginItem.Visibility = Visibility.Visible;
+                    _profileGrid.Visibility = Visibility.Collapsed;
+                    _friendsList.Visibility = Visibility.Collapsed;
+                    _loginGrid.Visibility = Visibility.Visible;
+                    _needLoginBlock.Visibility = Visibility.Visible;
                 }
 
                 App.ViewModel.IsDataLoaded = true;
             }
-        }
-
-        private void SearchBox_KeyUp(object sender, KeyEventArgs e) {
-            if (e.Key == Key.Enter) {
-                var query = ((TextBox) sender).Text;
-                this.Focus();
-                App.ViewModel.LoadResults(query);
-            }
-        }
-
-        private void SearchBox_GotFocus(object sender, RoutedEventArgs e) {
-            ((TextBox) sender).Text = "";
         }
 
         private void SignIn_Click(object sender, RoutedEventArgs e) {
@@ -97,8 +90,10 @@ namespace LagerWP7 {
 
                     CredentialUtility.StoreCredentials();
 
-                    _loginItem.Visibility = Visibility.Collapsed;
-                    _profileItem.Visibility = Visibility.Visible;
+                    _loginGrid.Visibility = Visibility.Collapsed;
+                    _needLoginBlock.Visibility = Visibility.Collapsed;
+                    _profileGrid.Visibility = Visibility.Visible;
+                    _friendsList.Visibility = Visibility.Visible;
 
                     App.ViewModel.InitClient();
 
@@ -116,7 +111,13 @@ namespace LagerWP7 {
         }
 
         private void InfoButton_Click(object sender, RoutedEventArgs e) {
+            var task = new WebBrowserTask();
+            task.URL = "https://bitbucket.org/bsiegel/lager";
+            task.Show();
+        }
 
+        private void SearchButton_Click(object sender, RoutedEventArgs e) {
+            App.ViewModel.LoadResults(_searchBox.Text);
         }
     }
 

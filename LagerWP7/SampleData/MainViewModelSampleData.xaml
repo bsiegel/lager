@@ -1,0 +1,43 @@
+<local:MainViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:LagerWP7">
+    
+    <local:MainViewModel.Trending>
+        <local:ItemViewModel LineOne="samuel adams summer ale" LineTwo="boston beer company"/>
+        <local:ItemViewModel LineOne="coors light" LineTwo="coors brewing company"/>
+        <local:ItemViewModel LineOne="oberon ale" LineTwo="bell's brewery, inc."/>
+        <local:ItemViewModel LineOne="guinness draught" LineTwo="guinness ltd."/>
+        <local:ItemViewModel LineOne="pabst blue ribbon" LineTwo="pabst brewing company"/>
+    </local:MainViewModel.Trending>
+
+    <local:MainViewModel.Recent>
+        <local:ItemViewModel LineOne="samuel adams summer ale" LineTwo="boston beer company" LineThree="2 hours ago"/>
+        <local:ItemViewModel LineOne="coors light" LineTwo="coors brewing company" LineThree="4 hours ago"/>
+        <local:ItemViewModel LineOne="oberon ale" LineTwo="bell's brewery, inc." LineThree="6 hours ago"/>
+        <local:ItemViewModel LineOne="guinness draught" LineTwo="guinness ltd." LineThree="8 hours ago"/>
+        <local:ItemViewModel LineOne="pabst blue ribbon" LineTwo="pabst brewing company" LineThree="1 day ago"/>
+    </local:MainViewModel.Recent>
+
+    <local:MainViewModel.Results>
+        <local:ItemViewModel LineOne="samuel adams summer ale" LineTwo="boston beer company"/>
+        <local:ItemViewModel LineOne="coors light" LineTwo="coors brewing company"/>
+        <local:ItemViewModel LineOne="oberon ale" LineTwo="bell's brewery, inc."/>
+        <local:ItemViewModel LineOne="guinness draught" LineTwo="guinness ltd."/>
+        <local:ItemViewModel LineOne="pabst blue ribbon" LineTwo="pabst brewing company"/>
+    </local:MainViewModel.Results>
+
+    <local:MainViewModel.Friends>
+        <local:ItemViewModel LineOne="jkuemerle" LineTwo="is drinking a golden monkey by victory brewing company" LineThree="2 hours ago" Image="SampleData/avatar.png" />
+        <local:ItemViewModel LineOne="mletterle" LineTwo="is enjoying a oberon ale by bell's brewery, inc." LineThree="14 hours ago" Image="SampleData/avatar.png"  />
+        <local:ItemViewModel LineOne="bleach" LineTwo="is having a milk stout by left hand brewing company" LineThree="1 day ago" Image="SampleData/avatar.png" />
+        <local:ItemViewModel LineOne="boneal" LineTwo="is having a sprite by coca cola bottling company" LineThree="2 days ago" Image="SampleData/avatar.png" />
+    </local:MainViewModel.Friends>
+    <local:MainViewModel.ProfileName>Untappd User</local:MainViewModel.ProfileName>
+    <local:MainViewModel.ProfileCity>Beertopia, USA</local:MainViewModel.ProfileCity>
+    <local:MainViewModel.ProfileImage>SampleData/avatar.png</local:MainViewModel.ProfileImage>
+    <local:MainViewModel.PanoramaBackgroundImage>
+        <ImageBrush ImageSource="PanoramaBackgroundDark.png" />
+    </local:MainViewModel.PanoramaBackgroundImage>
+
+</local:MainViewModel>

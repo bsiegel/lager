@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8851DECC-2265-4703-ACF9-12E155AEFBD3}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UntappdAPI</RootNamespace>
+    <AssemblyName>UntappdAPI.SL</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json.WindowsPhone">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.2\lib\sl3-wp\Newtonsoft.Json.WindowsPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\BaseResponse.cs">
+      <Link>DataContracts\BaseResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\BeerInfoResponse.cs">
+      <Link>DataContracts\BeerInfoResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\BeerInforResult.cs">
+      <Link>DataContracts\BeerInforResult.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\BeerSearchResponse.cs">
+      <Link>DataContracts\BeerSearchResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\BeerSearchResult.cs">
+      <Link>DataContracts\BeerSearchResult.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\CheckinResponse.cs">
+      <Link>DataContracts\CheckinResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\ErrorResponse.cs">
+      <Link>DataContracts\ErrorResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\TrendingResponse.cs">
+      <Link>DataContracts\TrendingResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\TrendingResults.cs">
+      <Link>DataContracts\TrendingResults.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\User.cs">
+      <Link>DataContracts\User.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\UserFeedResponse.cs">
+      <Link>DataContracts\UserFeedResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\UserFeedResults.cs">
+      <Link>DataContracts\UserFeedResults.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\UserInfoResponse.cs">
+      <Link>DataContracts\UserInfoResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\UserInfoResults.cs">
+      <Link>DataContracts\UserInfoResults.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\Venue.cs">
+      <Link>DataContracts\Venue.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\VenueCategory.cs">
+      <Link>DataContracts\VenueCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\VenueLocation.cs">
+      <Link>DataContracts\VenueLocation.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\Extensions\Extensions.cs">
+      <Link>Extensions\Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\JSONHelper.cs">
+      <Link>JSONHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\MD5.cs">
+      <Link>MD5.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\ResponseArgs.cs">
+      <Link>ResponseArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\Security.cs">
+      <Link>Security.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\UntappdClient.cs">
+      <Link>UntappdClient.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /c/e/h/y "$(TargetPath)" "C:\Users\Josh\Documents\Visual Studio 2010\Projects\Beer App\branches\BeerApp-2.0\WP7\Lib\"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

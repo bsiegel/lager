@@ -110,6 +110,8 @@ namespace LagerWP7 {
                         LineTwo = result.BreweryName
                     });
                 }
+                _searchComplete = true;
+                NotifyPropertyChanged("NoResults");
                 HideProgress();
             };
 
@@ -153,6 +155,14 @@ namespace LagerWP7 {
         public ObservableCollection<ItemViewModel> Results {
             get;
             private set;
+        }
+
+        private bool _searchComplete = false;
+
+        public bool NoResults {
+            get {
+                return (_searchComplete && Results.Count == 0);
+            }
         }
 
         private string _profileName = "Untappd User";
@@ -289,6 +299,9 @@ namespace LagerWP7 {
         }
 
         public void LoadResults(string query) {
+            _searchComplete = false;
+            NotifyPropertyChanged("NoResults");
+
             ShowProgress();
             _client.FetchBeerSearchResults(query);
         }

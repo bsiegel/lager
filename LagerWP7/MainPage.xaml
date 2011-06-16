@@ -135,6 +135,7 @@
                             </Button.Template>
                         </Button>
                     </Grid>
+                    <TextBlock Grid.Row="1" Margin="0,0,-12,0" x:Name="_noResultsBlock" Text="sorry, no results found" Visibility="{Binding NoResults, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource PhoneTextLargeStyle}" />
                     <ListBox Grid.Row="1" Margin="0,0,-12,0" ItemsSource="{Binding Results}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -160,12 +161,9 @@
             </Button.Template>
         </Button>
 
-        <StackPanel Orientation="Vertical" x:Name="_progressStack" Height="28" VerticalAlignment="Bottom" Margin="0,0,0,0" Visibility="{Binding Loading, Converter={StaticResource VisibilityConverter}}" Background="{StaticResource PhoneSemitransparentBrush}">
-            <toolkit:PerformanceProgressBar x:Name="_progressBar" Margin="0,6,0,0" IsIndeterminate="{Binding Loading}" Foreground="{StaticResource PhoneForegroundBrush}" />
-            <TextBlock x:Name="_progressText" Margin="0,0,0,2" HorizontalAlignment="Center" Text="Loading..." Style="{StaticResource PhoneTextNormalStyle}" FontSize="14" />            
-        </StackPanel>
+        <toolkit:PerformanceProgressBar x:Name="_progressBar" VerticalAlignment="Top" Margin="0,0,0,0" Visibility="{Binding Loading, Converter={StaticResource VisibilityConverter}}" IsIndeterminate="{Binding Loading}" Foreground="{StaticResource PhoneForegroundBrush}" />
 
-        <StackPanel Orientation="Vertical" x:Name="_errorStack" Height="28" VerticalAlignment="Bottom" Margin="0,0,0,0" Visibility="{Binding ErrorStatus, Converter={StaticResource VisibilityConverter}}" Background="{StaticResource PhoneSemitransparentBrush}">
+        <StackPanel Orientation="Vertical" x:Name="_errorStack" Height="32" VerticalAlignment="Top" Margin="0,0,0,0" Visibility="{Binding ErrorStatus, Converter={StaticResource VisibilityConverter}}" Background="{StaticResource PhoneSemitransparentBrush}">
             <TextBlock x:Name="_errorText" Margin="0,0,0,2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ErrorText}" Style="{StaticResource PhoneTextNormalStyle}" FontSize="18" />
         </StackPanel>
 

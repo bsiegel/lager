@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using UntappdAPI.DataContracts;
+using System.Windows.Threading;
 
 
 namespace UntappdAPI
@@ -205,28 +206,52 @@ namespace UntappdAPI
                 }
             }
 
+            var timer = new DispatcherTimer {
+                Interval = TimeSpan.FromSeconds(20)
+            };
+
+            timer.Tick += (o, e) => {
+                timer.Stop();
+                client.CancelAsync();
+                RaiseError(client, new WebException("Operation timed out: GET " + typeof(T).ToString()));
+            };
+
             if (httpMethod.Equals("GET", StringComparison.OrdinalIgnoreCase))
             {
-                client.DownloadStringCompleted += WebClient_DownloadStringCompleted;
+                client.DownloadStringCompleted += (sender, e) => {
+                    if (timer.IsEnabled) {
+                        timer.Stop();
+                        client = null;
+
+                        //Only process result if timer was enabled - if it was already disabled, it was timed out and this is a late request
+                        if (e.Error == null) {
+                            ProcessResponse(e.Result, e.UserState.ToString(), sender);
+                        } else {
+                            RaiseError(sender, e.Error);
+                        }
+                    }
+                };
                 client.DownloadStringAsync(new Uri(BaseUrl + uri), typeof(T).ToString() + ":" + methodName);
+                timer.Start();
             }
             else //assume post
             {
                 client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                client.UploadStringCompleted += WebClient_UploadStringCompleted;
-                client.UploadStringAsync(new Uri(BaseUrl + uri), "POST", optionalParamValues.Remove(optionalParamValues.Length - 1, 1).ToString(), typeof(T) + ":" + methodName);
-            }
-        }
+                client.UploadStringCompleted += (sender, e) => {
+                    if (timer.IsEnabled) {
+                        timer.Stop();
+                        client = null;
 
-        void WebClient_UploadStringCompleted(object sender, UploadStringCompletedEventArgs e)
-        {
-            if (e.Error == null)
-            {
-                ProcessResponse(e.Result, e.UserState.ToString(), sender);
-            }
-            else
-            {
-                RaiseError(sender, e.Error);
+                        //Only process result if timer was enabled - if it was already disabled, it was timed out and this is a late request
+                        if (e.Error == null) {
+                            ProcessResponse(e.Result, e.UserState.ToString(), sender);
+                        } else {
+                            RaiseError(sender, e.Error);
+                        }
+                    }
+                };
+                client.UploadStringAsync(new Uri(BaseUrl + uri), "POST", optionalParamValues.Remove(optionalParamValues.Length - 1, 1).ToString(), typeof(T) + ":" + methodName);
+                timer.Start();
             }
         }
 
@@ -273,18 +298,6 @@ namespace UntappdAPI
                 }
 
                 RemoteError(sender, new ResponseArgs<ErrorResponse>(errResponse, rawMessage));
-            }
-        }
-
-        private void WebClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (e.Error == null)
-            {
-                ProcessResponse(e.Result, e.UserState.ToString(), sender);
-            }
-            else
-            {
-                RaiseError(sender, e.Error);
             }
         }
 

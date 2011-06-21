@@ -155,6 +155,11 @@
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal">
                             <Button Click="User_Click" Tag="{Binding User.UserName}" Margin="12,0,9,0">
+                                <toolkit:ContextMenuService.ContextMenu>
+                                    <toolkit:ContextMenu x:Name="_contextMenu">
+                                        <toolkit:MenuItem Header="sign out" Click="SignOut_Click" />
+                                    </toolkit:ContextMenu>
+                                </toolkit:ContextMenuService.ContextMenu>
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Height="100" Width="100" Source="{Binding User.AvatarUrl}"/>
@@ -170,7 +175,7 @@
                                             </ControlTemplate>
                                         </HyperlinkButton.Template>
                                     </HyperlinkButton>
-                                    <TextBlock Text="{Binding User.Location}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                    <TextBlock Text="{Binding User.Location}" TextWrapping="Wrap" Margin="12,-6,12,0" FontSize="{StaticResource PhoneFontSizeSmall}" Style="{StaticResource PhoneTextSubtleStyle}"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -255,21 +260,15 @@
             </controls:PanoramaItem>
         </controls:Panorama>
 
-        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6,6,0" Click="InfoButton_Click">
+        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6,6,0" Click="About_Click">
             <Button.Template>
                 <ControlTemplate>
                     <Grid Background="Transparent">
-                        <Ellipse Width="26" Height="26" StrokeThickness="2" Stroke="{StaticResource PhoneSubtleBrush}" />
+                        <Ellipse Width="26" Height="26" Fill="Transparent" StrokeThickness="2" Stroke="{StaticResource PhoneSubtleBrush}" />
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="i" FontSize="17" Foreground="{StaticResource PhoneSubtleBrush}" />
                     </Grid>
                 </ControlTemplate>
             </Button.Template>
-            <toolkit:ContextMenuService.ContextMenu>
-                <toolkit:ContextMenu x:Name="_contextMenu">
-                    <toolkit:MenuItem Header="sign out" Click="SignOut_Click" Visibility="{Binding UntappdUsername, Mode=OneWay, Converter={StaticResource VisibilityConverter}}"/>
-                    <toolkit:MenuItem Header="about" Click="About_Click"/>
-                </toolkit:ContextMenu>
-            </toolkit:ContextMenuService.ContextMenu>
         </Button>
 
         <app:StatusControl x:Name="_status" />

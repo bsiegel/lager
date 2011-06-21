@@ -106,14 +106,6 @@ namespace LagerWP7 {
             client.CheckInBeer(1, -5, null, null, null, null, false, false, false, true);
         }
 
-        private void InfoButton_Click(object sender, RoutedEventArgs e) {
-            var task = new WebBrowserTask() {
-                URL = "https://bitbucket.org/bsiegel/lager"
-            };
-            task.Show();
-            _contextMenu.IsOpen = true;
-        }
-
         private void MainPage_BackKeyPress(object sender, CancelEventArgs e) {
             if (_contextMenu.IsOpen) {
                 _contextMenu.IsOpen = false; // Close menu

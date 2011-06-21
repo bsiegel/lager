@@ -92,7 +92,7 @@ namespace LagerWP7 {
                 if (user.UserName == UntappdUsername) {
                     user.FirstName = user.FirstName.ToLower();
                     user.LastName = user.LastName.ToLower();
-                    user.Location = user.Location.ToLower();
+                    user.Location = user.Location.ToUpper();
                     User = user;
                 }
                 _status.HideProgress();

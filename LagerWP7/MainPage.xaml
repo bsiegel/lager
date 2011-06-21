@@ -19,7 +19,29 @@
      
     <phone:PhoneApplicationPage.Resources>
         <app:VisibilityConverter x:Key="VisibilityConverter" />
+        <app:DescriptiveConverter x:Key="DescriptiveConverter" />
     </phone:PhoneApplicationPage.Resources>
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -32,26 +54,71 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17" Width="418">
-                                <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                <HyperlinkButton Click="Beer_Click" Tag="{Binding IdOne}">
+                                    <HyperlinkButton.Template>
+                                        <ControlTemplate>
+                                            <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
+                                        </ControlTemplate>
+                                    </HyperlinkButton.Template>
+                                </HyperlinkButton>
+                                <HyperlinkButton Click="Brewery_Click" Margin="0,-6,12,0" Tag="{Binding IdTwo}">
+                                    <HyperlinkButton.Template>
+                                        <ControlTemplate>
+                                            <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                        </ControlTemplate>
+                                    </HyperlinkButton.Template>
+                                </HyperlinkButton>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </controls:PanoramaItem>
 
-            <controls:PanoramaItem Header="friends" Margin="0,0,0,0">
+            <controls:PanoramaItem Header="friends">
                 <Grid Margin="0,0,-12,0">
                     <TextBlock x:Name="_needLoginBlock" Text="sign in to see friends' brews" Visibility="Collapsed" Style="{StaticResource PhoneTextLargeStyle}" />
                     <ListBox x:Name="_friendsList" ItemsSource="{Binding Friends}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
-                                    <Image Height="100" Width="100" Source="{Binding Image}" Margin="12,0,9,0"/>
+                                    <Button VerticalAlignment="Top" Click="User_Click" Tag="{Binding IdOne}" Margin="12,0,9,0">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <Image Height="100" Width="100" Source="{Binding Image}"/>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
                                     <StackPanel Width="318">
-                                        <TextBlock Text="{Binding LineOne}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                                        <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                        <TextBlock Text="{Binding LineThree}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                        <HyperlinkButton Click="User_Click" Tag="{Binding IdOne}">
+                                            <HyperlinkButton.Template>
+                                                <ControlTemplate>
+                                                    <TextBlock Text="{Binding LineOne}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                                                </ControlTemplate>
+                                            </HyperlinkButton.Template>
+                                        </HyperlinkButton>
+                                        <toolkit:WrapPanel Margin="12,-6,12,0">
+                                            <TextBlock Text="{Binding LineTwo, Mode=OneWay, Converter={StaticResource DescriptiveConverter}}" Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                            <HyperlinkButton Margin="0" Click="Beer_Click" Tag="{Binding IdTwo}">
+                                                <HyperlinkButton.Template>
+                                                    <ControlTemplate>
+                                                        <TextBlock Text="{Binding LineTwo}" Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                                    </ControlTemplate>
+                                                </HyperlinkButton.Template>
+                                            </HyperlinkButton>
+                                            <TextBlock Text=" " Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                            <TextBlock Text="by" Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                            <TextBlock Text=" " Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                            <HyperlinkButton Margin="0" Click="Brewery_Click" Tag="{Binding IdThree}">
+                                                <HyperlinkButton.Template>
+                                                    <ControlTemplate>
+                                                        <TextBlock Text="{Binding LineThree}" Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                                    </ControlTemplate>
+                                                </HyperlinkButton.Template>
+                                            </HyperlinkButton>
+                                        </toolkit:WrapPanel>
+                                        <TextBlock Text="{Binding LineFour}" TextWrapping="Wrap" Margin="12,-3,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                        <TextBlock Text="&#x201C;" FontSize="64" FontFamily="Georgia" TextWrapping="NoWrap" Margin="12,-6,12,-50" Visibility="{Binding LineFive, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                        <TextBlock Text="{Binding LineFive}" TextWrapping="Wrap" Margin="38,0,12,0" Visibility="{Binding LineFive, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" FontSize="{StaticResource PhoneFontSizeSmall}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
@@ -87,11 +154,23 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal">
-                            <Image Height="100" Width="100" Source="{Binding ProfileImage}" Margin="12,0,9,0"/>
+                            <Button Click="User_Click" Tag="{Binding User.UserName}" Margin="12,0,9,0">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Height="100" Width="100" Source="{Binding User.AvatarUrl}"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
                                 <StackPanel Width="297">
-                                    <TextBlock Text="{Binding ProfileName}" TextWrapping="NoWrap"  Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                                    <TextBlock Text="{Binding ProfileCity}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                    <HyperlinkButton Click="User_Click" Tag="{Binding User.UserName}">
+                                        <HyperlinkButton.Template>
+                                            <ControlTemplate>
+                                                <TextBlock Text="{Binding User.DisplayName}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                                            </ControlTemplate>
+                                        </HyperlinkButton.Template>
+                                    </HyperlinkButton>
+                                    <TextBlock Text="{Binding User.Location}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -100,9 +179,23 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
                                         <StackPanel Width="406">
-                                            <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                            <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                            <TextBlock Text="{Binding LineThree}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                            <HyperlinkButton Click="Beer_Click" Tag="{Binding IdOne}">
+                                                <HyperlinkButton.Template>
+                                                    <ControlTemplate>
+                                                        <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
+                                                    </ControlTemplate>
+                                                </HyperlinkButton.Template>
+                                            </HyperlinkButton>
+                                            <HyperlinkButton Click="Brewery_Click" Tag="{Binding IdTwo}" Margin="0,-6,12,0">
+                                                <HyperlinkButton.Template>
+                                                    <ControlTemplate>
+                                                        <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                                    </ControlTemplate>
+                                                </HyperlinkButton.Template>
+                                            </HyperlinkButton>
+                                            <TextBlock Text="{Binding LineThree}" TextWrapping="Wrap" Margin="12,-3,12,0" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                            <TextBlock Text="&#x201C;" FontSize="64" FontFamily="Georgia" TextWrapping="Wrap" Margin="12,-6,12,-50" Visibility="{Binding LineFour, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                            <TextBlock Text="{Binding LineFour}" TextWrapping="Wrap" Margin="38,0,12,0" Visibility="{Binding LineFour, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" FontSize="{StaticResource PhoneFontSizeSmall}"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>
@@ -135,13 +228,25 @@
                             </Button.Template>
                         </Button>
                     </Grid>
-                    <TextBlock Grid.Row="1" Margin="0,0,-12,0" x:Name="_noResultsBlock" Text="sorry, no results found" Visibility="{Binding NoResults, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource PhoneTextLargeStyle}" />
+                    <TextBlock Grid.Row="1" Margin="0,0,-12,0" x:Name="_noResultsBlock" Text="sorry, no results found" Visibility="{Binding NoResults, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource PhoneTextLargeStyle}" />
                     <ListBox Grid.Row="1" Margin="0,0,-12,0" ItemsSource="{Binding Results}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="418">
-                                    <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                    <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                    <HyperlinkButton Click="Beer_Click" Tag="{Binding IdOne}">
+                                        <HyperlinkButton.Template>
+                                            <ControlTemplate>
+                                                <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
+                                            </ControlTemplate>
+                                        </HyperlinkButton.Template>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Click="Brewery_Click" Tag="{Binding IdTwo}" Margin="0,-6,12,0">
+                                        <HyperlinkButton.Template>
+                                            <ControlTemplate>
+                                                <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                            </ControlTemplate>
+                                        </HyperlinkButton.Template>
+                                    </HyperlinkButton>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -159,13 +264,15 @@
                     </Grid>
                 </ControlTemplate>
             </Button.Template>
+            <toolkit:ContextMenuService.ContextMenu>
+                <toolkit:ContextMenu x:Name="_contextMenu">
+                    <toolkit:MenuItem Header="sign out" Click="SignOut_Click" Visibility="{Binding UntappdUsername, Mode=OneWay, Converter={StaticResource VisibilityConverter}}"/>
+                    <toolkit:MenuItem Header="about" Click="About_Click"/>
+                </toolkit:ContextMenu>
+            </toolkit:ContextMenuService.ContextMenu>
         </Button>
 
-        <toolkit:PerformanceProgressBar x:Name="_progressBar" VerticalAlignment="Top" Margin="0,0,0,0" Visibility="{Binding Loading, Converter={StaticResource VisibilityConverter}}" IsIndeterminate="{Binding Loading}" Foreground="{StaticResource PhoneForegroundBrush}" />
-
-        <StackPanel Orientation="Vertical" x:Name="_errorStack" Height="32" VerticalAlignment="Top" Margin="0,0,0,0" Visibility="{Binding ErrorStatus, Converter={StaticResource VisibilityConverter}}" Background="{StaticResource PhoneSemitransparentBrush}">
-            <TextBlock x:Name="_errorText" Margin="0,0,0,2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ErrorText}" Style="{StaticResource PhoneTextNormalStyle}" FontSize="18" />
-        </StackPanel>
+        <app:StatusControl x:Name="_status" />
 
     </Grid>
 </phone:PhoneApplicationPage>

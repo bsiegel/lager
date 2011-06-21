@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -26,6 +27,8 @@ namespace LagerWP7 {
                 return (Visibility) Application.Current.Resources["PhoneLightThemeVisibility"] == Visibility.Visible;
             }
         }
+
+        public static readonly string ApiKey = "26fd7397ef4a8a0390b465c0b74ea073";
 
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
@@ -90,7 +93,8 @@ namespace LagerWP7 {
 
         // Code to execute if a navigation fails
         private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e) {
-            App.ViewModel.ShowError(e.Exception.Message);
+            var currentPage = ((PhoneApplicationFrame) Application.Current.RootVisual).Content as IStatusPage;
+            currentPage.Status.ShowError(e.Exception.Message);
             if (System.Diagnostics.Debugger.IsAttached) {
                 // A navigation has failed; break into the debugger
                 System.Diagnostics.Debugger.Break();
@@ -100,10 +104,16 @@ namespace LagerWP7 {
 
         // Code to execute on Unhandled Exceptions
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e) {
-            App.ViewModel.ShowError(e.ExceptionObject.Message);
+            var currentPage = ((PhoneApplicationFrame) Application.Current.RootVisual).Content as IStatusPage;
+            currentPage.Status.ShowError(e.ExceptionObject.Message);
             if (System.Diagnostics.Debugger.IsAttached) {
                 // An unhandled exception has occurred; break into the debugger
                 System.Diagnostics.Debugger.Break();
+            } else {
+                try {
+                    throw e.ExceptionObject;
+                } catch (Exception) {
+                }
             }
             e.Handled = true;
         }
@@ -120,7 +130,7 @@ namespace LagerWP7 {
 
             // Create the frame but don't set it as RootVisual yet; this allows the splash
             // screen to remain active until the application is ready to render.
-            RootFrame = new PhoneApplicationFrame();
+            RootFrame = new TransitionFrame();
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
             // Handle navigation failures

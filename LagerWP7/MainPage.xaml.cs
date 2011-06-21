@@ -1,35 +1,31 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
 using LagerWP7.Utility;
 using Microsoft.Phone.Controls;
-using UntappdAPI;
-using ShakeGestures;
-using System;
-using System.Windows.Threading;
-using System.Windows.Data;
-using System.Globalization;
 using Microsoft.Phone.Tasks;
+using ShakeGestures;
+using UntappdAPI;
+using UntappdAPI.DataContracts;
 
 namespace LagerWP7 {
-    public partial class MainPage : PhoneApplicationPage {
+    public partial class MainPage : PhoneApplicationPage, IStatusPage {
         // Constructor
         public MainPage() {
             InitializeComponent();
 
-            // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
+            App.ViewModel.InitClient(_status);
 
-            this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+            Loaded += MainPage_Loaded;
+            BackKeyPress += MainPage_BackKeyPress;
         }
-
-
 
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e) {
             if (!App.ViewModel.IsDataLoaded) {
                 ShakeGesturesHelper.Instance.ShakeGesture += (s, ea) => {
-                    this.Dispatcher.BeginInvoke(() => {
+                    Dispatcher.BeginInvoke(() => {
                         //load public feeds
                         App.ViewModel.LoadPublicFeeds();
 
@@ -54,7 +50,7 @@ namespace LagerWP7 {
                     _friendsList.Visibility = Visibility.Visible;
 
                     //re-initialize client with credentials
-                    App.ViewModel.InitClient();
+                    App.ViewModel.InitClient(_status);
 
                     //load user info
                     App.ViewModel.LoadUserInfo();
@@ -74,10 +70,10 @@ namespace LagerWP7 {
         }
 
         private void SignIn_Click(object sender, RoutedEventArgs e) {
-            App.ViewModel.ShowProgress();
-            var client = new UntappdClient(_loginUsername.Text, _loginPassword.Password, App.ViewModel.ApiKey);
+            _status.ShowProgress();
+            var client = new UntappdClient(_loginUsername.Text, _loginPassword.Password, App.ApiKey);
             client.CheckinComplete += (s, ea) => {
-                App.ViewModel.HideProgress();
+                _status.HideProgress();
                 if (ea.Result.HttpCode != 200) {
                     _loginFailure.Text = ea.Result.ErrorMessage;
                     _loginFailure.Visibility = Visibility.Visible;
@@ -95,14 +91,14 @@ namespace LagerWP7 {
                     _profileGrid.Visibility = Visibility.Visible;
                     _friendsList.Visibility = Visibility.Visible;
 
-                    App.ViewModel.InitClient();
+                    App.ViewModel.InitClient(_status);
 
                     App.ViewModel.LoadUserInfo();
                     App.ViewModel.LoadPersonalFeeds();
                 }
             };
             client.RemoteError += (s, ea) => {
-                App.ViewModel.HideProgress();
+                _status.HideProgress();
                 _loginFailure.Text = ea.Result.ErrorMessage;
                 _loginFailure.Visibility = Visibility.Visible;
             };
@@ -111,33 +107,81 @@ namespace LagerWP7 {
         }
 
         private void InfoButton_Click(object sender, RoutedEventArgs e) {
-            var task = new WebBrowserTask();
-            task.URL = "https://bitbucket.org/bsiegel/lager";
+            var task = new WebBrowserTask() {
+                URL = "https://bitbucket.org/bsiegel/lager"
+            };
+            task.Show();
+            _contextMenu.IsOpen = true;
+        }
+
+        private void MainPage_BackKeyPress(object sender, CancelEventArgs e) {
+            if (_contextMenu.IsOpen) {
+                _contextMenu.IsOpen = false; // Close menu
+                e.Cancel = true; // Cancel Navigation
+            }
+        }
+
+        public void SignOut_Click(object sender, RoutedEventArgs e) {
+            _loginFailure.Visibility = Visibility.Collapsed;
+            _loginFailure.Text = "";
+
+            App.ViewModel.UntappdUsername = null;
+            App.ViewModel.UntappdPassword = null;
+
+            CredentialUtility.DeleteCredentials();
+
+            _friendsList.Visibility = Visibility.Collapsed;
+            _profileGrid.Visibility = Visibility.Collapsed;
+            _needLoginBlock.Visibility = Visibility.Visible;
+            _loginGrid.Visibility = Visibility.Visible;
+
+            App.ViewModel.User = new User();
+            App.ViewModel.Friends.Clear();
+            App.ViewModel.Recent.Clear();
+
+            App.ViewModel.InitClient(_status);
+        }
+
+        public void About_Click(object sender, RoutedEventArgs e) {
+            var task = new WebBrowserTask() {
+                URL = "https://bitbucket.org/bsiegel/lager"
+            };
             task.Show();
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e) {
             App.ViewModel.LoadResults(_searchBox.Text);
         }
-    }
 
-    public class VisibilityConverter : IValueConverter {
-        public object Convert(
-            object value,
-            Type targetType,
-            object parameter,
-            CultureInfo culture) {
-            bool visibility = (bool) value;
-            return visibility ? Visibility.Visible : Visibility.Collapsed;
+        private void User_Click(object sender, RoutedEventArgs e) {
+            var s = sender as FrameworkElement;
+            if (s != null && s.Tag != null) {
+                NavigationService.Navigate(new Uri(string.Format("/UserPage.xaml?id={0}", s.Tag), UriKind.Relative));
+            }
         }
 
-        public object ConvertBack(
-            object value,
-            Type targetType,
-            object parameter,
-            CultureInfo culture) {
-            Visibility visibility = (Visibility) value;
-            return (visibility == Visibility.Visible);
+        private void Beer_Click(object sender, RoutedEventArgs e) {
+            var s = sender as FrameworkElement;
+            if (s != null && s.Tag != null) {
+                NavigationService.Navigate(new Uri(string.Format("/BeerPage.xaml?id={0}", s.Tag), UriKind.Relative));
+            }
         }
+
+        private void Brewery_Click(object sender, RoutedEventArgs e) {
+            var s = sender as FrameworkElement;
+            if (s != null && s.Tag != null) {
+                NavigationService.Navigate(new Uri(string.Format("/BreweryPage.xaml?id={0}", s.Tag), UriKind.Relative));
+            }
+        }
+
+        #region IStatusPage Members
+
+        public StatusControl Status {
+            get {
+                return _status;
+            }
+        }
+
+        #endregion
     }
 }

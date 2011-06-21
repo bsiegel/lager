@@ -10,6 +10,15 @@ namespace LagerWP7.Utility {
         private const string _fileName = "usercred.dat";
         private const string _defaultKey = "70D47CAF65CB4EEC87DE461EA1FA7FBC";
 
+        internal static void DeleteCredentials() {
+            try {
+                IsolatedStorageSettings.ApplicationSettings.Remove("UntappdUsername");
+                IsolatedStorageSettings.ApplicationSettings.Remove("UntappdPassword");
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            } catch (Exception) {
+            }
+        }
+
         internal static void StoreCredentials() {
             try {
                 string anid = UserExtendedProperties.GetValue("ANID") as string;
@@ -21,7 +30,7 @@ namespace LagerWP7.Utility {
                 }
 
                 IsolatedStorageSettings.ApplicationSettings["UntappdUsername"] = App.ViewModel.UntappdUsername;
-                IsolatedStorageSettings.ApplicationSettings["UntappdPassword"] = Encrypt(App.ViewModel.UntappdPassword, key, App.ViewModel.ApiKey);
+                IsolatedStorageSettings.ApplicationSettings["UntappdPassword"] = Encrypt(App.ViewModel.UntappdPassword, key, App.ApiKey);
                 IsolatedStorageSettings.ApplicationSettings.Save();
             } catch (Exception) {
             }
@@ -47,7 +56,7 @@ namespace LagerWP7.Utility {
                     key = _defaultKey;
                 }
 
-                App.ViewModel.UntappdPassword = Decrypt(pw, key, App.ViewModel.ApiKey);
+                App.ViewModel.UntappdPassword = Decrypt(pw, key, App.ApiKey);
                 App.ViewModel.UntappdUsername = un;
                 
                 return true;

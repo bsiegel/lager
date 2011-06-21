@@ -37,5 +37,11 @@ namespace UntappdAPI.DataContracts
         public decimal Abv { get; set; }
         [DataMember(Name = "type")]
         public string Style { get; set; }
+        [DataMember(Name = "your_count")]
+        public int YourCount { get; set; }
+        [DataMember(Name = "avg_rating")]
+        public int AvgRating { get; set; }
+        [DataMember(Name = "your_rating")]
+        public int YourRating { get; set; }
     }
 }

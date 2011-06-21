@@ -140,21 +140,21 @@ namespace UntappdAPI
             GetResponseMessage<BeerSearchResponse>("beer_search", parms);
         }
 
-        public void CheckInBeer(int beerId, int gmtOffset, string comment, bool postToFacebook, bool postToTwitter)
+        public void CheckInBeer(int beerId, double gmtOffset, string comment, bool postToFacebook, bool postToTwitter)
         {
             CheckInBeer(beerId, gmtOffset, null, null, null, comment, postToFacebook, postToTwitter, false, false);
         }
 
-        public void CheckInBeer(int beerId, int gmtOffset)
+        public void CheckInBeer(int beerId, double gmtOffset)
         {
             CheckInBeer(beerId, gmtOffset, null, null, null, null, false, false, false, false);
         }
 
-        public void CheckInBeer(int beerId, int gmtOffset, string foursquareId, float? locationLat, float? locationLng, string comment, bool postToFacebook, bool postToTwitter, bool postToFoursquare, bool testCheckin)
+        public void CheckInBeer(int beerId, double gmtOffset, string foursquareId, float? locationLat, float? locationLng, string comment, bool postToFacebook, bool postToTwitter, bool postToFoursquare, bool testCheckin)
         {
             var parms = new Dictionary<string, string>();
             parms.Add("bid", beerId.ToString());
-            parms.Add("gmt_offset", gmtOffset.ToString());
+            parms.Add("gmt_offset", gmtOffset.ToString("F2"));
             if (!String.IsNullOrEmpty(foursquareId))
                 parms.Add("foursquare_id", foursquareId);
             if (locationLng.HasValue && locationLat.HasValue)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -7,51 +6,39 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using UntappdAPI;
 using UntappdAPI.DataContracts;
-using System.Windows.Threading;
-using System.Windows.Controls;
 
 
 namespace LagerWP7 {
     public class MainViewModel : INotifyPropertyChanged {
+        private StatusControl _status;
+
         public MainViewModel() {
             this.Trending = new ObservableCollection<ItemViewModel>();
             this.Friends = new ObservableCollection<ItemViewModel>();
             this.Recent = new ObservableCollection<ItemViewModel>();
             this.Results = new ObservableCollection<ItemViewModel>();
-
-            this._timer = new DispatcherTimer {
-                Interval = TimeSpan.FromSeconds(5)
-            };
-
-            _timer.Tick += (o, e) => {
-                _timer.Stop();
-
-                ErrorText = null;
-
-                NotifyPropertyChanged("Loading");
-                NotifyPropertyChanged("ErrorText");
-                NotifyPropertyChanged("ErrorStatus");
-            };
-
-            InitClient();
         }
 
-        public void InitClient() {
+        public void InitClient(StatusControl status) {
+            _status = status;
+
             if (!String.IsNullOrEmpty(UntappdUsername) && !String.IsNullOrEmpty(UntappdPassword)) {
-                _client = new UntappdClient(UntappdUsername, UntappdPassword, ApiKey);
+                _client = new UntappdClient(UntappdUsername, UntappdPassword, App.ApiKey);
             } else {
-                _client = new UntappdClient(ApiKey);
+                _client = new UntappdClient(App.ApiKey);
             }
             
             _client.TrendingComplete += (sender, e) => {
                 this.Trending.Clear();
                 foreach (var result in e.Result.Results) {
                     this.Trending.Add(new ItemViewModel() {
-                        LineOne = result.BeerName,
-                        LineTwo = result.BreweryName
+                        LineOne = result.BeerName.ToLower(),
+                        IdOne = result.BeerId.ToString(),
+                        LineTwo = result.BreweryName.ToLower(),
+                        IdTwo = result.BreweryId
                     });
                 }
-                HideProgress();
+                _status.HideProgress();
             };
             _client.UserFeedComplete += (sender, e) => {
                 if (e.Result.FeedType == "Friend") {
@@ -65,14 +52,20 @@ namespace LagerWP7 {
                     foreach (var result in e.Result.Results.OrderByDescending(i => DateTime.Parse(i.CreatedAt))) {
                         if (result != null) {
                             this.Friends.Add(new ItemViewModel() {
-                                LineOne = result.User.DisplayName,
-                                LineTwo = String.Format("is enjoying a{0} {1} by {2}", _vowels.Contains(result.BeerName[0]) ? "n" : "", result.BeerName, result.BreweryName),
-                                LineThree = result.DisplayCreatedTimeAgo,
-                                Image = result.User.AvatarUrl
+                                LineOne = result.User.DisplayName.ToLower(),
+                                IdOne = result.User.UserName,
+                                LineTwo = result.BeerName.ToLower(),
+                                IdTwo = result.BeerId.ToString(),
+                                LineThree = result.BreweryName.ToLower(),
+                                IdThree = result.BreweryId, 
+                                //LineTwo = String.Format("is enjoying a{0} {1} by {2}", _vowels.Contains(result.BeerName[0]) ? "n" : "", result.BeerName, result.BreweryName),
+                                LineFour = result.DisplayCreatedTimeAgo,
+                                Image = result.User.AvatarUrl,
+                                LineFive = String.IsNullOrEmpty(result.CheckinComment) ? null : result.CheckinComment.ToLower()
                             });
                         }
                     }
-                    HideProgress();
+                    _status.HideProgress();
                 } else if (e.Result.FeedType == "User") {
                     var first = e.Result.Results.First();
                     if (first.User.UserName == UntappdUsername) {
@@ -81,48 +74,57 @@ namespace LagerWP7 {
                         foreach (var result in e.Result.Results.OrderByDescending(i => DateTime.Parse(i.CreatedAt))) {
                             if (result != null) {
                                 this.Recent.Add(new ItemViewModel() {
-                                    LineOne = result.BeerName,
-                                    LineTwo = result.BreweryName,
-                                    LineThree = result.DisplayCreatedTimeAgo
+                                    LineOne = result.BeerName.ToLower(),
+                                    IdOne = result.BeerId.ToString(),
+                                    LineTwo = result.BreweryName.ToLower(),
+                                    IdTwo = result.BreweryId,
+                                    LineThree = result.DisplayCreatedTimeAgo,
+                                    LineFour = String.IsNullOrEmpty(result.CheckinComment) ? null : result.CheckinComment.ToLower()
                                 });
                             }
                         }
                     }
-                    HideProgress();
+                    _status.HideProgress();
                 }
             };
             _client.UserInfoComplete += (sender, e) => {
                 var user = e.Result.Results.User;
                 if (user.UserName == UntappdUsername) {
-                    // profile
-                    ProfileName = user.DisplayName;
-                    ProfileCity = user.Location;
-                    ProfileImage = user.AvatarUrl;
+                    user.FirstName = user.FirstName.ToLower();
+                    user.LastName = user.LastName.ToLower();
+                    user.Location = user.Location.ToLower();
+                    User = user;
                 }
-                HideProgress();
+                _status.HideProgress();
             };
 
             _client.BeerSearchResultsComplete += (sender, e) => {
                 this.Results.Clear();
                 foreach (var result in e.Result.Results) {
                     this.Results.Add(new ItemViewModel() {
-                        LineOne = result.Name,
-                        LineTwo = result.BreweryName
+                        LineOne = result.Name.ToLower(),
+                        IdOne = result.BeerId.ToString(),
+                        LineTwo = result.BreweryName.ToLower(),
+                        IdTwo = result.BreweryId
                     });
                 }
                 _searchComplete = true;
                 NotifyPropertyChanged("NoResults");
-                HideProgress();
+                _status.HideProgress();
             };
 
             _client.RemoteError += (sender, e) => {
-                HideProgress();
-                ShowError(e.Result.Error != null ? e.Result.Error.Message : e.Result.ErrorMessage);
+                _status.HideProgress();
+                _status.ShowError(e.Result.Error != null ? e.Result.Error.Message : e.Result.ErrorMessage);
             };
         }
 
         private UntappdClient _client;
-        private List<char> _vowels = new List<char> { 'a', 'e', 'i', 'o', 'u' };
+        public UntappdClient Client {
+            get {
+                return _client;
+            }
+        }
 
         public ImageBrush PanoramaBackgroundImage {
             get {
@@ -157,7 +159,7 @@ namespace LagerWP7 {
             private set;
         }
 
-        private bool _searchComplete = false;
+        private bool _searchComplete;
 
         public bool NoResults {
             get {
@@ -165,99 +167,34 @@ namespace LagerWP7 {
             }
         }
 
-        private string _profileName = "Untappd User";
-        private string _profileCity = "Beertopia, USA";
-        private string _profileImage = "SampleData/avatar.png";
-        /// <summary>
-        /// Sample ViewModel property; this property is used in the view to display its value using a Binding
-        /// </summary>
-        /// <returns></returns>
-        public string ProfileName {
+        private User _user = new User();
+
+        public User User {
             get {
-                return _profileName;
+                return _user;
             }
             set {
-                if (value != _profileName) {
-                    _profileName = value;
-                    NotifyPropertyChanged("ProfileName");
+                if (value != _user) {
+                    _user = value;
+                    NotifyPropertyChanged("User");
                 }
             }
         }
 
-        public string ProfileCity {
+        private string _untappdUserName;
+        internal string UntappdUsername {
             get {
-                return _profileCity;
+                return _untappdUserName;
             }
             set {
-                if (value != _profileCity) {
-                    _profileCity = value;
-                    NotifyPropertyChanged("ProfileCity");
+                if (value != _untappdUserName) {
+                    _untappdUserName = value;
+                    NotifyPropertyChanged("UntappdUsername");
                 }
             }
         }
 
-        public string ProfileImage {
-            get {
-                return _profileImage;
-            }
-            set {
-                if (value != _profileImage) {
-                    _profileImage = value;
-                    NotifyPropertyChanged("ProfileImage");
-                }
-            }
-        }
-
-        private int _loadCount = 0;
-        private DispatcherTimer _timer;
-
-        public void ShowProgress(int count = 1) {
-            if (_loadCount <= 0) {
-                _loadCount = 0;
-            }
-
-            _loadCount += count;
-
-            NotifyPropertyChanged("Loading");
-        }
-
-        public void HideProgress(int count = 1) {
-            _loadCount -= count;
-
-            if (_loadCount <= 0) {
-                _loadCount = 0;
-            }
-
-            NotifyPropertyChanged("Loading");
-        }
-
-        public bool Loading {
-            get {
-                return ErrorStatus ? false : _loadCount > 0;
-            }
-        }
-
-        public void ShowError(string errorText) {
-            if (ErrorText == null) {
-
-                ErrorText = errorText;
-
-                //schedule timer
-                _timer.Start();
-
-                NotifyPropertyChanged("Loading");
-                NotifyPropertyChanged("ErrorText");
-                NotifyPropertyChanged("ErrorStatus");
-            }
-        }
-
-        public bool ErrorStatus {
-            get {
-                return ErrorText != null;
-            }
-        }
-
-        public string ErrorText {
+        internal string UntappdPassword {
             get;
             set;
         }
@@ -267,33 +204,21 @@ namespace LagerWP7 {
             set;
         }
 
-        internal string UntappdUsername {
-            get;
-            set;
-        }
-
-        internal string UntappdPassword {
-            get;
-            set;
-        }
-
-        internal readonly string ApiKey = "26fd7397ef4a8a0390b465c0b74ea073";
-
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Recent collection.
         /// </summary>
         public void LoadPublicFeeds() {
-            ShowProgress();
+            _status.ShowProgress();
             _client.FetchTrending();
         }
 
         public void LoadUserInfo() {
-            ShowProgress();
+            _status.ShowProgress();
             _client.FetchUserInfo();
         }
 
         public void LoadPersonalFeeds() {
-            ShowProgress(2);
+            _status.ShowProgress(2);
             _client.FetchUserFeed();
             _client.FetchFriendFeed();
         }
@@ -302,8 +227,8 @@ namespace LagerWP7 {
             _searchComplete = false;
             NotifyPropertyChanged("NoResults");
 
-            ShowProgress();
-            _client.FetchBeerSearchResults(query);
+            _status.ShowProgress();
+            _client.FetchBeerSearchResults(query, sortType: UntappdClient.SearchSortType.Count);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -312,41 +237,6 @@ namespace LagerWP7 {
             if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
-    }
-
-    class DistinctUserFeedComparer : IEqualityComparer<UserFeedResults> {
-        // Products are equal if their names and product numbers are equal.
-        public bool Equals(UserFeedResults x, UserFeedResults y) {
-
-            //Check whether the compared objects reference the same data.
-            if (Object.ReferenceEquals(x, y))
-                return true;
-
-            //Check whether any of the compared objects is null.
-            if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
-                return false;
-
-            //Check whether any of the compared objects is null.
-            if (Object.ReferenceEquals(x.User, null) || Object.ReferenceEquals(y.User, null))
-                return false;
-
-            return x.User.UserName == y.User.UserName;
-        }
-
-        // If Equals() returns true for a pair of objects 
-        // then GetHashCode() must return the same value for these objects.
-
-        public int GetHashCode(UserFeedResults result) {
-            //Check whether the object is null
-            if (Object.ReferenceEquals(result, null))
-                return 0;
-
-            if (Object.ReferenceEquals(result.User, null))
-                return 0;
-
-            //Get hash code for the Name field if it is not null.
-            return result.User.UserName.GetHashCode();
         }
     }
 }

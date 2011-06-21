@@ -1,15 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 
 namespace LagerWP7 {
     public class ItemViewModel : INotifyPropertyChanged {
@@ -64,6 +54,40 @@ namespace LagerWP7 {
             }
         }
 
+        private string _lineFour;
+        /// <summary>
+        /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
+        /// </summary>
+        /// <returns></returns>
+        public string LineFour {
+            get {
+                return _lineFour;
+            }
+            set {
+                if (value != _lineFour) {
+                    _lineFour = value;
+                    NotifyPropertyChanged("LineFour");
+                }
+            }
+        }
+
+        private string _lineFive;
+        /// <summary>
+        /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
+        /// </summary>
+        /// <returns></returns>
+        public string LineFive {
+            get {
+                return _lineFive;
+            }
+            set {
+                if (value != _lineFive) {
+                    _lineFive = value;
+                    NotifyPropertyChanged("LineFive");
+                }
+            }
+        }
+
         private string _image;
         /// <summary>
         /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
@@ -77,6 +101,71 @@ namespace LagerWP7 {
                 if (value != _image) {
                     _image = value;
                     NotifyPropertyChanged("Image");
+                }
+            }
+        }
+
+        private string _idOne;
+        public string IdOne {
+            get {
+                return _idOne;
+            }
+            set {
+                if (value != _idOne) {
+                    _idOne = value;
+                    NotifyPropertyChanged("IdOne");
+                }
+            } 
+        }
+
+        private string _idTwo;
+        public string IdTwo {
+            get {
+                return _idTwo;
+            }
+            set {
+                if (value != _idTwo) {
+                    _idTwo = value;
+                    NotifyPropertyChanged("IdTwo");
+                }
+            }
+        }
+
+        private string _idThree;
+        public string IdThree {
+            get {
+                return _idThree;
+            }
+            set {
+                if (value != _idThree) {
+                    _idThree = value;
+                    NotifyPropertyChanged("IdThree");
+                }
+            }
+        }
+
+        private string _idFour;
+        public string IdFour {
+            get {
+                return _idFour;
+            }
+            set {
+                if (value != _idFour) {
+                    _idFour = value;
+                    NotifyPropertyChanged("IdFour");
+                }
+            }
+        }
+
+        private string _idFive;
+        public string IdFive {
+            get {
+                return _idFive;
+            }
+            set {
+                if (value != _idFive) {
+                    _idFive = value;
+                    NotifyPropertyChanged("IdFive");
                 }
             }
         }

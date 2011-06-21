@@ -24,7 +24,7 @@ namespace UntappdAPI.DataContracts
         public string BeerStamp { get; set; }
         [DataMember(Name = "created_at")]
         public string CreatedAt { get; set; }
-        [DataMember(Name = "checkin_comment")]
+        [DataMember(Name = "check_in_comment")]
         public string CheckinComment { get; set; }
         [DataMember(Name = "created_link")]
         public string CheckinLink { get; set; }

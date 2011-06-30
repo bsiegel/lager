@@ -22,16 +22,26 @@ namespace LagerWP7 {
             Type targetType,
             object parameter,
             CultureInfo culture) {
-            var name = (string) value;
+            var model = (ItemViewModel) value;
             var sb = new StringBuilder();
 
             sb.Append("is ");
             sb.Append(_verbs[new Random().Next(_verbs.Count)]);
-            if (_vowels.Contains(name[0])) {
+            if (_vowels.Contains(model.LineTwo[0])) {
                 sb.Append(" an ");
             } else {
                 sb.Append(" a ");
             }
+
+            sb.Append("[link=\"BeerPage.xaml?id=");
+            sb.Append(model.IdTwo);
+            sb.Append("\"]");
+            sb.Append(model.LineTwo);
+            sb.Append("[/link] by [link=\"BreweryPage.xaml?id=");
+            sb.Append(model.IdThree);
+            sb.Append("\"]");
+            sb.Append(model.LineThree);
+            sb.Append("[/link]");
 
             return sb.ToString();
         }

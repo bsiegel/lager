@@ -175,5 +175,11 @@ namespace LagerWP7 {
         }
 
         #endregion
+
+        private void LinkLabel_LinkClick(object sender, CompletIT.Windows.LinkClickEventArgs e) {
+            if (e.Action != null) {
+                NavigationService.Navigate(new Uri(string.Format("/{0}", e.Action), UriKind.Relative));
+            }
+        }
     }
 }

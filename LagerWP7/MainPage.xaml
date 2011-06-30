@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:label="clr-namespace:CompletIT.Windows.Controls;assembly=LinkLabel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:app="clr-namespace:LagerWP7"
@@ -96,26 +97,7 @@
                                                 </ControlTemplate>
                                             </HyperlinkButton.Template>
                                         </HyperlinkButton>
-                                        <toolkit:WrapPanel Margin="12,-6,12,0">
-                                            <TextBlock Text="{Binding LineTwo, Mode=OneWay, Converter={StaticResource DescriptiveConverter}}" Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                            <HyperlinkButton Margin="0" Click="Beer_Click" Tag="{Binding IdTwo}">
-                                                <HyperlinkButton.Template>
-                                                    <ControlTemplate>
-                                                        <TextBlock Text="{Binding LineTwo}" Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
-                                                    </ControlTemplate>
-                                                </HyperlinkButton.Template>
-                                            </HyperlinkButton>
-                                            <TextBlock Text=" " Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                            <TextBlock Text="by" Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                            <TextBlock Text=" " Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                            <HyperlinkButton Margin="0" Click="Brewery_Click" Tag="{Binding IdThree}">
-                                                <HyperlinkButton.Template>
-                                                    <ControlTemplate>
-                                                        <TextBlock Text="{Binding LineThree}" Margin="0" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
-                                                    </ControlTemplate>
-                                                </HyperlinkButton.Template>
-                                            </HyperlinkButton>
-                                        </toolkit:WrapPanel>
+                                        <label:LinkLabel Margin="12,-6,12,0" LinkMatchMethod="ByLinkPattern" LinkClick="LinkLabel_LinkClick" LinkStyle="{StaticResource PhoneTextNormalStyle}" TextStyle="{StaticResource PhoneTextSubtleStyle}" Text="{Binding Mode=OneWay, Converter={StaticResource DescriptiveConverter}}" />
                                         <TextBlock Text="{Binding LineFour}" TextWrapping="Wrap" Margin="12,-3,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                                         <TextBlock Text="&#x201C;" FontSize="64" FontFamily="Georgia" TextWrapping="NoWrap" Margin="12,-6,12,-50" Visibility="{Binding LineFive, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource PhoneTextNormalStyle}"/>
                                         <TextBlock Text="{Binding LineFive}" TextWrapping="Wrap" Margin="38,0,12,0" Visibility="{Binding LineFive, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" FontSize="{StaticResource PhoneFontSizeSmall}"/>

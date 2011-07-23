@@ -68,8 +68,14 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\Badge.cs">
+      <Link>DataContracts\Badge.cs</Link>
+    </Compile>
     <Compile Include="..\UntappdAPI.NET35\DataContracts\BaseResponse.cs">
       <Link>DataContracts\BaseResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\BeerDetail.cs">
+      <Link>DataContracts\BeerDetail.cs</Link>
     </Compile>
     <Compile Include="..\UntappdAPI.NET35\DataContracts\BeerInfoResponse.cs">
       <Link>DataContracts\BeerInfoResponse.cs</Link>
@@ -92,8 +98,14 @@
     <Compile Include="..\UntappdAPI.NET35\DataContracts\CheckinResponse.cs">
       <Link>DataContracts\CheckinResponse.cs</Link>
     </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\CheckinTotal.cs">
+      <Link>DataContracts\CheckinTotal.cs</Link>
+    </Compile>
     <Compile Include="..\UntappdAPI.NET35\DataContracts\ErrorResponse.cs">
       <Link>DataContracts\ErrorResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\Recommendation.cs">
+      <Link>DataContracts\Recommendation.cs</Link>
     </Compile>
     <Compile Include="..\UntappdAPI.NET35\DataContracts\TopBeerResult.cs">
       <Link>DataContracts\TopBeerResult.cs</Link>

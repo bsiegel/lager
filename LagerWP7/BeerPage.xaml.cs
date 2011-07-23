@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Microsoft.Phone.Controls;
+using System.Text.RegularExpressions;
 
 namespace LagerWP7 {
     public partial class BeerPage : PhoneApplicationPage, IStatusPage {
@@ -10,7 +11,6 @@ namespace LagerWP7 {
             InitializeComponent();
 
             DataContext = new BeerViewModel();
-            //((BeerViewModel) DataContext).CheckinComplete += Checkin_Complete;
             ((BeerViewModel) DataContext).InitClient(_status);
 
             Loaded += BeerPage_Loaded;
@@ -24,7 +24,8 @@ namespace LagerWP7 {
         }
 
         private void CheckIn_Click(object sender, RoutedEventArgs e) {
-            ((BeerViewModel) DataContext).CheckInToBeer(_id);
+            var r = ((BeerViewModel) DataContext).Result;
+            NavigationService.Navigate(new Uri(string.Format("/ConfirmCheckinPage.xaml?id={0}&n={1}&b={2}&i={3}", _id, Uri.EscapeDataString(r.Name), Uri.EscapeDataString(r.Brewery), Uri.EscapeDataString(r.Img)), UriKind.Relative));
         }
 
         private void Brewery_Click(object sender, RoutedEventArgs e) {
@@ -32,10 +33,6 @@ namespace LagerWP7 {
             if (s != null && s.Tag != null) {
                 NavigationService.Navigate(new Uri(string.Format("/BreweryPage.xaml?id={0}", s.Tag), UriKind.Relative));
             }
-        }
-
-        private void Checkin_Complete(object sender, EventArgs e) {
-            NavigationService.Navigate(new Uri(Uri.EscapeUriString(string.Format("/CheckinResultPage.xaml?beer={0}&brewery={1}", ((BeerViewModel) DataContext).Result.Name, ((BeerViewModel) DataContext).Result.Brewery)), UriKind.Relative));
         }
 
         #region IStatusPage Members

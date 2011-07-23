@@ -58,6 +58,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsPhoneWatermarkTextBoxControl">
+      <HintPath>..\packages\WindowsPhoneWatermarkTextBoxControl.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -71,6 +74,9 @@
     </Compile>
     <Compile Include="CheckinResultPage.xaml.cs">
       <DependentUpon>CheckinResultPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfirmCheckinPage.xaml.cs">
+      <DependentUpon>ConfirmCheckinPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
@@ -89,6 +95,8 @@
     <Compile Include="ViewModels\BeerViewModel.cs" />
     <Compile Include="Utility\DistinctUserFeedComparer.cs" />
     <Compile Include="ViewModels\BreweryViewModel.cs" />
+    <Compile Include="ViewModels\ConfirmCheckinViewModel.cs" />
+    <Compile Include="ViewModels\CheckinResultViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -108,6 +116,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CheckinResultPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfirmCheckinPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

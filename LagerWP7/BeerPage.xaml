@@ -115,8 +115,8 @@
                 <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Result.YourCount}" HorizontalAlignment="Center" />
             </Grid>
 
-            <Button Grid.Row="3" Margin="0,17,0,0" Visibility="{Binding SignedIn, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Content="check in" Click="CheckIn_Click" />
-            <TextBlock HorizontalAlignment="Center" Visibility="{Binding SignedOut, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" VerticalAlignment="Center" Grid.Row="3" Margin="0,17,0,0" Style="{StaticResource PhoneTextLargeStyle}" Text="sign in to check in" />
+            <Button Grid.Row="3" Margin="0,17,0,0" Visibility="{Binding SignedIn, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Content="check-in" Click="CheckIn_Click" />
+            <TextBlock HorizontalAlignment="Center" Visibility="{Binding SignedOut, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" VerticalAlignment="Center" Grid.Row="3" Margin="0,17,0,0" Style="{StaticResource PhoneTextLargeStyle}" Text="sign in to check-in" />
         </Grid>
 
         <app:StatusControl x:Name="_status" />

@@ -5,7 +5,6 @@ using UntappdAPI.DataContracts;
 
 namespace LagerWP7 {
     public class BeerViewModel : INotifyPropertyChanged {
-        //public event EventHandler CheckinComplete;
         private StatusControl _status;
 
         public BeerViewModel() {
@@ -30,14 +29,6 @@ namespace LagerWP7 {
                 Result = res;
 
                 _status.HideProgress();
-            };
-
-            _client.CheckinComplete += (sender, e) => {
-                _status.HideProgress();
-                //if (e.Result.HttpCode == 200 && CheckinComplete != null) {
-                //    CheckinComplete(this, EventArgs.Empty);
-                //}
-
             };
 
             _client.RemoteError += (sender, e) => {
@@ -66,19 +57,6 @@ namespace LagerWP7 {
             }
         }
 
-        private string _comment;
-        public string Comment {
-            get {
-                return _comment;
-            }
-            set {
-                if (value != _comment) {
-                    _comment = value;
-                    NotifyPropertyChanged("Comment");
-                }
-            }
-        }
-
         private bool _signedIn;
         public bool SignedIn {
             get {
@@ -102,18 +80,6 @@ namespace LagerWP7 {
         public void LoadBeerInfo(string beerID) {
             _status.ShowProgress();
             _client.FetchBeerInfo(Convert.ToInt32(beerID));
-        }
-
-
-        public void CheckInToBeer(string beerID) {
-            _status.ShowProgress();
-            _client.CheckInBeer(Convert.ToInt32(beerID), TimeZoneInfo.Local.BaseUtcOffset.TotalHours, null, null, null, Comment, false, false, false,
-#if DEBUG
-            true
-#else
-            false
-#endif
-            );
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

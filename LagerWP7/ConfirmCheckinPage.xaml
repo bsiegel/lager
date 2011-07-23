@@ -1,10 +1,11 @@
 ﻿<phone:PhoneApplicationPage 
-    x:Class="LagerWP7.CheckinResultPage"
+    x:Class="LagerWP7.ConfirmCheckinPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:watermark="clr-namespace:System.Windows.Controls;assembly=WindowsPhoneWatermarkTextBoxControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:app="clr-namespace:LagerWP7"
@@ -35,10 +36,15 @@
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
-
+    
     <phone:PhoneApplicationPage.Resources>
-        <app:CheckinConverter x:Key="CheckinConverter" />
-        <app:VisibilityConverter x:Key="VisibilityConverter" />
+        <Style x:Key="ItalicStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="14,0,0,0" />
+            <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="FontStyle" Value="Italic" />
+        </Style>
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -51,7 +57,7 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
             <TextBlock x:Name="ApplicationTitle" Text="LAGER" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="{Binding PageTitle, Mode=OneWay}" TextWrapping="Wrap" Margin="11,-7,0,0" Style="{StaticResource PhoneTextLargeStyle}"/>
+            <TextBlock x:Name="PageTitle" Text="check-in" TextWrapping="Wrap" Margin="11,-7,0,0" Style="{StaticResource PhoneTextLargeStyle}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -60,47 +66,17 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="1" Margin="12,0,0,0" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding Result, Mode=OneWay, Converter={StaticResource CheckinConverter}}" />
-            <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,0,0,0" Visibility="{Binding HasBadges, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
-                <TextBlock Margin="12,17,0,0" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="you got some swag!" />
-                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                    <Image Height="90" Width="90" Margin="12,0,0,0" VerticalAlignment="Top" Source="{Binding Result.Badges.ImgSmall}"/>
-                    <StackPanel Margin="0,0,0,0" HorizontalAlignment="Stretch" Width="356">
-                        <TextBlock Text="{Binding Result.Badges.Name}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
-                        <TextBlock Text="{Binding Result.Badges.Description}" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
-                    </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                <Image Height="100" Width="100" Margin="12,0,0,0" VerticalAlignment="Top" Source="{Binding Img}"/>
+                <StackPanel Margin="0,0,0,17" HorizontalAlignment="Stretch" Width="356">
+                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
+                    <TextBlock Text="{Binding Brewery}" TextWrapping="Wrap" Margin="12,0,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0,0,0,0">
-                <TextBlock Margin="12,17,0,0" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="recommendations" />
-                <ListBox Margin="0,12,0,0" ItemsSource="{Binding Result.Recommendations}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,0,0,17" Width="418">
-                                <HyperlinkButton Click="Beer_Click" Tag="{Binding BeerId}">
-                                    <HyperlinkButton.Template>
-                                        <ControlTemplate>
-                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                        </ControlTemplate>
-                                    </HyperlinkButton.Template>
-                                </HyperlinkButton>
-                                <HyperlinkButton Click="Brewery_Click" Margin="0,-6,12,0" Tag="{Binding BreweryId}">
-                                    <HyperlinkButton.Template>
-                                        <ControlTemplate>
-                                            <TextBlock Text="{Binding BreweryName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                        </ControlTemplate>
-                                    </HyperlinkButton.Template>
-                                </HyperlinkButton>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
+            <watermark:WatermarkTextBox x:Name="Comment" Grid.Row="1" AcceptsReturn="True" WatermarkText="comments... (optional)" WatermarkTextStyle="{StaticResource ItalicStyle}" />
+            <Button Grid.Row="2" Margin="0,17,0,0" Content="confirm your check-in" Click="Checkin_Click" />
         </Grid>
-
-        <app:StatusControl x:Name="_status" />
     </Grid>
  
     <!--Sample code showing usage of ApplicationBar-->

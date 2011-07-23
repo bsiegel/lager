@@ -86,15 +86,16 @@ namespace LagerWP7 {
             }
         }
 
-        public void CheckInToBeer(string beerID, string comment) {
+        public void CheckInToBeer(string beerID, string comment, int? rating) {
             _status.ShowProgress();
-            _client.CheckInBeer(Convert.ToInt32(beerID), TimeZoneInfo.Local.BaseUtcOffset.TotalHours, null, null, null, comment, false, false, false,
+
 #if DEBUG
- true
+            var testOnly = true;
 #else
- false
+            var testOnly = false;
 #endif
-);
+
+            _client.CheckInBeer(Convert.ToInt32(beerID), TimeZoneInfo.Local.BaseUtcOffset.TotalHours, null, null, null, comment, rating, false, false, false, testOnly);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

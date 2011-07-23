@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShakeGestures", "ShakeGestu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkLabel", "LinkLabel\LinkLabel.csproj", "{BD2E71AB-F8C8-42EE-8EF0-0B5854B146CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingControlSample", "RatingControlSample\RatingControlSample.csproj", "{4C3CF5FC-387D-41E7-84A5-B08CAACBD394}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewBox", "ViewBox\ViewBox.csproj", "{31E7F8EF-4D23-4FBB-AA81-8211499FED0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsPhoneWatermarkTextBoxControl", "WindowsPhoneWatermarkTextBoxControl\WindowsPhoneWatermarkTextBoxControl.csproj", "{3DD53CC3-430E-40BF-BF8E-F39F0F6017CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +39,18 @@ Global
 		{BD2E71AB-F8C8-42EE-8EF0-0B5854B146CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD2E71AB-F8C8-42EE-8EF0-0B5854B146CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD2E71AB-F8C8-42EE-8EF0-0B5854B146CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C3CF5FC-387D-41E7-84A5-B08CAACBD394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C3CF5FC-387D-41E7-84A5-B08CAACBD394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C3CF5FC-387D-41E7-84A5-B08CAACBD394}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C3CF5FC-387D-41E7-84A5-B08CAACBD394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31E7F8EF-4D23-4FBB-AA81-8211499FED0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31E7F8EF-4D23-4FBB-AA81-8211499FED0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31E7F8EF-4D23-4FBB-AA81-8211499FED0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31E7F8EF-4D23-4FBB-AA81-8211499FED0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DD53CC3-430E-40BF-BF8E-F39F0F6017CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DD53CC3-430E-40BF-BF8E-F39F0F6017CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DD53CC3-430E-40BF-BF8E-F39F0F6017CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DD53CC3-430E-40BF-BF8E-F39F0F6017CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

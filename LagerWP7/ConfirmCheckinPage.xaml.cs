@@ -30,11 +30,9 @@ namespace LagerWP7 {
         }
 
         private void Checkin_Click(object sender, RoutedEventArgs e) {
-            NavigationService.Navigate(new Uri(string.Format("/CheckinResultPage.xaml?id={0}{1}", _id, !String.IsNullOrEmpty(Comment.Text) ? "&comment=" + Uri.EscapeDataString(Comment.Text) : ""), UriKind.Relative));
+            var commentFragment = !String.IsNullOrEmpty(Comment.Text) ? "&comment=" + Uri.EscapeDataString(Comment.Text) : "";
+            var ratingFragment = (Rating.Value.HasValue && Rating.Value > 0) ? "&rating=" + Convert.ToInt32((Rating.Value.Value * 5)) : "";
+            NavigationService.Navigate(new Uri(string.Format("/CheckinResultPage.xaml?id={0}{1}{2}", _id, commentFragment, ratingFragment), UriKind.Relative));
         }
-
- 
-        
-        
     }
 }

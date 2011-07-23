@@ -26,6 +26,8 @@ namespace LagerWP7 {
                 res.Brewery = res.Brewery.ToLower();
                 res.Name = res.Name.ToLower();
                 res.Style = res.Style.ToLower();
+                res.AvgRating = res.AvgRating / 5;
+                res.YourRating = res.YourRating / 5;
                 Result = res;
 
                 _status.HideProgress();

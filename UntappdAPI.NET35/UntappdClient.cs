@@ -149,15 +149,15 @@ namespace UntappdAPI
 
         public void CheckInBeer(int beerId, double gmtOffset, string comment, bool postToFacebook, bool postToTwitter)
         {
-            CheckInBeer(beerId, gmtOffset, null, null, null, comment, postToFacebook, postToTwitter, false, false);
+            CheckInBeer(beerId, gmtOffset, null, null, null, comment, null, postToFacebook, postToTwitter, false, false);
         }
 
         public void CheckInBeer(int beerId, double gmtOffset)
         {
-            CheckInBeer(beerId, gmtOffset, null, null, null, null, false, false, false, false);
+            CheckInBeer(beerId, gmtOffset, null, null, null, null, null, false, false, false, false);
         }
 
-        public void CheckInBeer(int beerId, double gmtOffset, string foursquareId, float? locationLat, float? locationLng, string comment, bool postToFacebook, bool postToTwitter, bool postToFoursquare, bool testCheckin)
+        public void CheckInBeer(int beerId, double gmtOffset, string foursquareId, float? locationLat, float? locationLng, string comment, int? rating, bool postToFacebook, bool postToTwitter, bool postToFoursquare, bool testCheckin)
         {
             var parms = new Dictionary<string, string>();
             parms.Add("bid", beerId.ToString());
@@ -171,6 +171,8 @@ namespace UntappdAPI
             }
             if (!String.IsNullOrEmpty(comment))
                 parms.Add("shout", comment);
+            if (rating.HasValue && rating >= 1 && rating <= 5)
+                parms.Add("rating_value", rating.ToString());
             if (postToFacebook)
                 parms.Add("facebook", "on");
             if (postToTwitter)

@@ -6,6 +6,8 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:watermark="clr-namespace:System.Windows.Controls;assembly=WindowsPhoneWatermarkTextBoxControl"
+    xmlns:ControlsToolkit="clr-namespace:System.Windows.Controls;assembly=RatingControlSample"
+    xmlns:viewbox="clr-namespace:System.Windows.Controls;assembly=Viewbox"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:app="clr-namespace:LagerWP7"
@@ -66,6 +68,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                 <Image Height="100" Width="100" Margin="12,0,0,0" VerticalAlignment="Top" Source="{Binding Img}"/>
@@ -74,8 +77,21 @@
                     <TextBlock Text="{Binding Brewery}" TextWrapping="Wrap" Margin="12,0,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                 </StackPanel>
             </StackPanel>
-            <watermark:WatermarkTextBox x:Name="Comment" Grid.Row="1" AcceptsReturn="True" WatermarkText="comments... (optional)" WatermarkTextStyle="{StaticResource ItalicStyle}" />
-            <Button Grid.Row="2" Margin="0,17,0,0" Content="confirm your check-in" Click="Checkin_Click" />
+            <watermark:WatermarkTextBox x:Name="Comment" Grid.Row="1" Margin="0,0,0,12" AcceptsReturn="True" WatermarkText="comments... (optional)" WatermarkTextStyle="{StaticResource ItalicStyle}" />
+            <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+                <TextBlock Text="rating" Margin="0,-3,24,0" VerticalAlignment="Stretch" Style="{StaticResource PhoneTextLargeStyle}" />
+                <viewbox:Viewbox Width="216" Height="48" Stretch="Uniform">
+                    <ControlsToolkit:Rating x:Name="Rating" Height="24" HorizontalAlignment="Center" Value="0" ItemCount="0">
+                        <ControlsToolkit:RatingItem Foreground="#FFFFD902" Margin="0,0,1,0" />
+                        <ControlsToolkit:RatingItem Foreground="#FFFFD902" Margin="1,0" />
+                        <ControlsToolkit:RatingItem Foreground="#FFFFD902" Margin="1,0" />
+                        <ControlsToolkit:RatingItem Foreground="#FFFFD902" Margin="1,0" />
+                        <ControlsToolkit:RatingItem Foreground="#FFFFD902" Margin="1,0,0,0" />
+                    </ControlsToolkit:Rating>
+                </viewbox:Viewbox>
+            </StackPanel>
+            
+            <Button Grid.Row="3" Margin="0,17,0,0" Content="confirm your check-in" Click="Checkin_Click" />
         </Grid>
     </Grid>
  

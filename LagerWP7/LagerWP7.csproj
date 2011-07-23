@@ -58,9 +58,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsPhoneWatermarkTextBoxControl">
-      <HintPath>..\packages\WindowsPhoneWatermarkTextBoxControl.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -163,6 +160,10 @@
       <Project>{BD2E71AB-F8C8-42EE-8EF0-0B5854B146CE}</Project>
       <Name>LinkLabel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RatingControlSample\RatingControlSample.csproj">
+      <Project>{4C3CF5FC-387D-41E7-84A5-B08CAACBD394}</Project>
+      <Name>RatingControlSample</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ShakeGestures\ShakeGestures.csproj">
       <Project>{F5CE25E6-CF76-43AE-BBB2-2C98B21BCCD8}</Project>
       <Name>ShakeGestures</Name>
@@ -170,6 +171,14 @@
     <ProjectReference Include="..\UntappdAPI.SL\UntappdAPI.SL.csproj">
       <Project>{8851DECC-2265-4703-ACF9-12E155AEFBD3}</Project>
       <Name>UntappdAPI.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewBox\ViewBox.csproj">
+      <Project>{31E7F8EF-4D23-4FBB-AA81-8211499FED0D}</Project>
+      <Name>ViewBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsPhoneWatermarkTextBoxControl\WindowsPhoneWatermarkTextBoxControl.csproj">
+      <Project>{3DD53CC3-430E-40BF-BF8E-F39F0F6017CB}</Project>
+      <Name>WindowsPhoneWatermarkTextBoxControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />

@@ -6,6 +6,7 @@ namespace LagerWP7 {
     public partial class CheckinResultPage : PhoneApplicationPage, IStatusPage {
         private string _id;
         private string _comment;
+        private int? _rating;
         private bool _inited;
 
         public CheckinResultPage() {
@@ -25,8 +26,12 @@ namespace LagerWP7 {
                     _comment = Uri.UnescapeDataString(NavigationContext.QueryString["comment"]);
                 }
 
+                if (NavigationContext.QueryString.ContainsKey("rating") && NavigationContext.QueryString["rating"].Length > 0) {
+                    _rating = Convert.ToInt32(NavigationContext.QueryString["rating"]);
+                }
+
                 if (!_inited) {
-                    ((CheckinResultViewModel) DataContext).CheckInToBeer(_id, _comment);
+                    ((CheckinResultViewModel) DataContext).CheckInToBeer(_id, _comment, _rating);
                     _inited = true;
                 }
             }

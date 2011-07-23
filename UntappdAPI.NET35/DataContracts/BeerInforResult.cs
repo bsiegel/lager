@@ -40,8 +40,8 @@ namespace UntappdAPI.DataContracts
         [DataMember(Name = "your_count")]
         public int YourCount { get; set; }
         [DataMember(Name = "avg_rating")]
-        public int AvgRating { get; set; }
+        public decimal AvgRating { get; set; }
         [DataMember(Name = "your_rating")]
-        public int YourRating { get; set; }
+        public decimal YourRating { get; set; }
     }
 }

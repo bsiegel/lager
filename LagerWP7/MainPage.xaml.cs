@@ -103,7 +103,7 @@ namespace LagerWP7 {
                 _loginFailure.Visibility = Visibility.Visible;
             };
 
-            client.CheckInBeer(1, -5, null, null, null, null, false, false, false, true);
+            client.CheckInBeer(1, -5, null, null, null, null, null, false, false, false, true);
         }
 
         private void MainPage_BackKeyPress(object sender, CancelEventArgs e) {

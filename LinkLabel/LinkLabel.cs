@@ -7,6 +7,7 @@
     using System.Text.RegularExpressions;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Markup;
     using CompletIT.Windows.Controls.LinkLabelElements;
     using Microsoft.Phone.Controls;
 
@@ -26,7 +27,7 @@
         public const string Space = " ";
         public static readonly DependencyProperty LinkStyleProperty = DependencyProperty.Register( "LinkStyle", typeof( Style ), typeof( LinkLabel ), null );
         public static readonly DependencyProperty TextStyleProperty = DependencyProperty.Register( "TextStyle", typeof( Style ), typeof( LinkLabel ), null );
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register( "Text", typeof( string ), typeof( LinkLabel ), new PropertyMetadata( new PropertyChangedCallback( OnTextChanged ) ) );
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(LinkLabel), new PropertyMetadata(OnTextChanged));
         private WrapPanel layoutRoot;
         private LinkMatchMethod linkMatchMethod = LinkMatchMethod.ByUriAndLinkPattern;
         private string linkPattern;
@@ -264,9 +265,6 @@
             string[] postUriWords = null;
             int startIndexOfUri = 0;
             char[] delimiter = { ' ' };
-            bool insertSpaceBeforeTheLink = false;
-            bool insertSpaceAfterTheLink = false;
-
             // no uris found
             if ( links == null || links.Count == 0 )
             {
@@ -285,9 +283,6 @@
                 preUri = linkLabelText.Substring( 0, startIndexOfUri );
                 postUri = linkLabelText.Substring( preUri.Length + link.Key.Length );
                 linkLabelText = postUri;
-
-                insertSpaceAfterTheLink = preUri.StartsWith( Space, StringComparison.OrdinalIgnoreCase );
-                insertSpaceBeforeTheLink = preUri.EndsWith( Space, StringComparison.OrdinalIgnoreCase );
 
                 // put all the words before the current Uri
                 preUriWords = new List<string>( preUri.Split( delimiter, StringSplitOptions.RemoveEmptyEntries ).AsEnumerable() );
@@ -313,8 +308,8 @@
 
                 for ( int i = 0; i < preUriWords.Count; i++ )
                 {
-                    this.AddWord( preUriWords[ i ], this.layoutRoot, insertSpaceAfterTheLink, ( i == ( preUriWords.Count - 1 ) && !insertSpaceBeforeTheLink ) );
-                    insertSpaceAfterTheLink = false;
+                    this.AddWord(preUriWords[i], this.layoutRoot);
+                    this.AddWord(Space, this.layoutRoot);
                 }
 
                 // uri words
@@ -336,10 +331,8 @@
 
                 for (int i = 0; i < uriWords.Count; i++) {
                     // insert the Uri
-                    var xaml = "<ControlTemplate xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><TextBlock Text=\"" + uriWords[i] + (i == uriWords.Count - 1 ? "" : " ") + "\" Margin=\"0\" TextWrapping=\"Wrap\" Style=\"{StaticResource PhoneTextNormalStyle}\" /></ControlTemplate>";
-                    var t = System.Windows.Markup.XamlReader.Load(xaml) as ControlTemplate;
                     HyperlinkButton hyperlink = new HyperlinkButton() {
-                        Template = t,
+                        Template = XamlReader.Load(String.Format("<ControlTemplate xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><TextBlock Text=\"{0}\" Margin=\"0\" TextWrapping=\"Wrap\" Style=\"{{StaticResource PhoneTextNormalStyle}}\" /></ControlTemplate>", uriWords[i])) as ControlTemplate,
                         Margin = new Thickness(0),
                         NavigateUri = link.NavigateUri,
                         TargetName = link.TargetName,
@@ -347,24 +340,30 @@
                     };
                     hyperlink.Click += new RoutedEventHandler(this.ClickLink);
                     this.layoutRoot.Children.Add(hyperlink);
+
+                    if (i < uriWords.Count - 1 || !String.IsNullOrEmpty(postUri)) {
+                        this.AddWord(Space, this.layoutRoot);
+                    }
                 }
             }
 
             // append the text after the last uri found
             if ( !string.IsNullOrEmpty( linkLabelText ) )
             {
-                insertSpaceAfterTheLink = postUri.StartsWith( Space, StringComparison.OrdinalIgnoreCase );
                 postUriWords = postUri.Split( delimiter, StringSplitOptions.RemoveEmptyEntries );
-                foreach ( string postWord in postUriWords )
+
+                for (int i = 0; i < postUriWords.Length; i++)
                 {
-                    this.AddWord( postWord + Space, this.layoutRoot, insertSpaceAfterTheLink, false );
-                    insertSpaceAfterTheLink = false;
+                    this.AddWord(postUriWords[i], this.layoutRoot);
+                    if (i < postUriWords.Length - 1) {
+                        this.AddWord(Space, this.layoutRoot);
+                    }
                 }
             }
         }
 
         #region Word Processing
-        private void AddWord( string w, Panel root, bool insertSpaceAfterTheLink, bool insertSpaceBeforeTheLink )
+        private void AddWord( string w, Panel root)
         {
             if ( WordStartsWithNewLine( w ) )
             {
@@ -376,7 +375,7 @@
 
             root.Children.Add( new TextBlock()
             {
-                Text = ( insertSpaceAfterTheLink ? Space : string.Empty ) + w + ( insertSpaceBeforeTheLink ? string.Empty : Space ),
+                Text = w,
                 Margin = new Thickness(0),
                 Style = this.TextStyle
             } );

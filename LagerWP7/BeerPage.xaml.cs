@@ -10,7 +10,8 @@ namespace LagerWP7 {
             InitializeComponent();
 
             DataContext = new BeerViewModel();
-            ((BeerViewModel)DataContext).InitClient(_status);
+            //((BeerViewModel) DataContext).CheckinComplete += Checkin_Complete;
+            ((BeerViewModel) DataContext).InitClient(_status);
 
             Loaded += BeerPage_Loaded;
         }
@@ -31,6 +32,10 @@ namespace LagerWP7 {
             if (s != null && s.Tag != null) {
                 NavigationService.Navigate(new Uri(string.Format("/BreweryPage.xaml?id={0}", s.Tag), UriKind.Relative));
             }
+        }
+
+        private void Checkin_Complete(object sender, EventArgs e) {
+            NavigationService.Navigate(new Uri(Uri.EscapeUriString(string.Format("/CheckinResultPage.xaml?beer={0}&brewery={1}", ((BeerViewModel) DataContext).Result.Name, ((BeerViewModel) DataContext).Result.Brewery)), UriKind.Relative));
         }
 
         #region IStatusPage Members

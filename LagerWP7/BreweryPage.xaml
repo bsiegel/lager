@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage 
-    x:Class="LagerWP7.BeerPage"
+    x:Class="LagerWP7.BreweryPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -50,7 +50,7 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
             <TextBlock x:Name="ApplicationTitle" Text="LAGER" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="beer info" TextWrapping="Wrap" Margin="11,-7,0,0" Style="{StaticResource PhoneTextLargeStyle}"/>
+            <TextBlock x:Name="PageTitle" Text="brewery info" TextWrapping="Wrap" Margin="11,-7,0,0" Style="{StaticResource PhoneTextLargeStyle}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -59,42 +59,19 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                 <Image Height="100" Width="100" Margin="12,0,0,0" VerticalAlignment="Top" Source="{Binding Result.Img}"/>
-                <StackPanel Margin="0,0,0,17" HorizontalAlignment="Stretch" Width="356">
-                    <TextBlock Text="{Binding Result.Name}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
-                    <HyperlinkButton Click="Brewery_Click" Tag="{Binding Result.BreweryId}">
-                        <HyperlinkButton.Template>
-                            <ControlTemplate>
-                                <TextBlock Text="{Binding Result.Brewery}" TextWrapping="Wrap" Margin="12,0,12,0" Style="{StaticResource PhoneTextNormalStyle}"/>
-                            </ControlTemplate>
-                        </HyperlinkButton.Template>
-                    </HyperlinkButton>
-                    <TextBlock Text="{Binding Result.Style}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Result.Abv}" TextWrapping="NoWrap" Margin="12,0,0,0" Style="{StaticResource PhoneTextNormalStyle}"/>
-                        <TextBlock Text="% ABV" Margin="0,0,12,0" TextWrapping="NoWrap" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
+                    <StackPanel Width="356">
+                        <TextBlock Text="{Binding Result.Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}"/>
+                        <TextBlock Text="{Binding Result.Country}" TextWrapping="Wrap" Margin="12,0,12,0" FontSize="{StaticResource PhoneFontSizeSmall}" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                        <TextBlock Text="{Binding Result.TwitterHandle}" TextWrapping="Wrap" Margin="12,0,12,0" Visibility="{Binding Result.TwitterHandle, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource PhoneTextNormalStyle}"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
 
             <Grid Grid.Row="1" Margin="0,0,0,12">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*" />
-                    <ColumnDefinition Width="0.5*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="average rating" HorizontalAlignment="Center" />
-                <TextBlock Grid.Column="1" Text="your rating" HorizontalAlignment="Center" />
-                <TextBlock Grid.Row="1" Text="{Binding Result.AvgRating}" HorizontalAlignment="Center" />
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Result.YourRating}" HorizontalAlignment="Center" />
-            </Grid>
-            <Grid Grid.Row="2" Margin="0,0,0,12">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -108,15 +85,29 @@
                 <TextBlock Text="total" HorizontalAlignment="Center" />
                 <TextBlock Grid.Column="1" Text="unique" HorizontalAlignment="Center" />
                 <TextBlock Grid.Column="2" Text="monthly" HorizontalAlignment="Center" />
-                <TextBlock Grid.Column="3" Text="you" HorizontalAlignment="Center" />
+                <TextBlock Grid.Column="3" Text="weekly" HorizontalAlignment="Center" />
                 <TextBlock Grid.Row="1" Text="{Binding Result.TotalCount}" HorizontalAlignment="Center" />
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Result.UniqueCount}" HorizontalAlignment="Center" />
                 <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Result.MonthlyCount}" HorizontalAlignment="Center" />
-                <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Result.YourCount}" HorizontalAlignment="Center" />
+                <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Result.WeeklyCount}" HorizontalAlignment="Center" />
             </Grid>
 
-            <Button Grid.Row="3" Margin="0,17,0,0" Visibility="{Binding SignedIn, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Content="check in" Click="CheckIn_Click" />
-            <TextBlock HorizontalAlignment="Center" Visibility="{Binding SignedOut, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" VerticalAlignment="Center" Grid.Row="3" Margin="0,17,0,0" Style="{StaticResource PhoneTextLargeStyle}" Text="sign in to check in" />
+            <ListBox Grid.Row="2" Margin="0,0,0,0" ItemsSource="{Binding Result.TopBeers}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,0,0,17" Width="418">
+                            <HyperlinkButton Click="Beer_Click" Tag="{Binding BeerId}">
+                                <HyperlinkButton.Template>
+                                    <ControlTemplate>
+                                        <TextBlock Text="{Binding Name}" Margin="12,0,12,0" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
+                                    </ControlTemplate>
+                                </HyperlinkButton.Template>
+                            </HyperlinkButton>
+                            <TextBlock Text="{Binding Style}" Margin="12,-6,12,0" TextWrapping="NoWrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
 
         <app:StatusControl x:Name="_status" />

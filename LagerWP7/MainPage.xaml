@@ -136,7 +136,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal">
-                            <Button Click="User_Click" Tag="{Binding User.UserName}" Margin="12,0,9,0">
+                            <Button VerticalAlignment="Top" Margin="12,0,9,0">
                                 <toolkit:ContextMenuService.ContextMenu>
                                     <toolkit:ContextMenu x:Name="_contextMenu">
                                         <toolkit:MenuItem Header="sign out" Click="SignOut_Click" />
@@ -150,7 +150,7 @@
                             </Button>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
                                 <StackPanel Width="297">
-                                    <HyperlinkButton Click="User_Click" Tag="{Binding User.UserName}">
+                                    <HyperlinkButton>
                                         <HyperlinkButton.Template>
                                             <ControlTemplate>
                                                 <TextBlock Text="{Binding User.DisplayName}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>

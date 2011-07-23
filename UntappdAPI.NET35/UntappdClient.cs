@@ -25,6 +25,7 @@ namespace UntappdAPI
         public string Key { get; set; }
         public event EventHandler<ResponseArgs<BeerSearchResponse>> BeerSearchResultsComplete;
         public event EventHandler<ResponseArgs<BeerInfoResponse>> BeerInfoComplete;
+        public event EventHandler<ResponseArgs<BreweryInfoResponse>> BreweryInfoComplete;
         public event EventHandler<ResponseArgs<UserInfoResponse>> UserInfoComplete;
         public event EventHandler<ResponseArgs<UserFeedResponse>> UserFeedComplete;
         public event EventHandler<ResponseArgs<TrendingResponse>> TrendingComplete;
@@ -129,6 +130,12 @@ namespace UntappdAPI
             GetResponseMessage<BeerInfoResponse>("beer_info", parms);
         }
 
+        public void FetchBreweryInfo(int breweryId) {
+            var parms = new Dictionary<string, string>();
+            parms.Add("brewery_id", breweryId.ToString());
+            GetResponseMessage<BreweryInfoResponse>("brewery_info", parms);
+        }
+
         public void FetchBeerSearchResults(string query, int offset = 0, SearchSortType sortType = SearchSortType.Name)
         {
             var parms = new Dictionary<string, string>();
@@ -212,8 +219,10 @@ namespace UntappdAPI
 
             timer.Tick += (o, e) => {
                 timer.Stop();
-                client.CancelAsync();
-                RaiseError(client, new WebException("Operation timed out: GET " + typeof(T).ToString()));
+                if (client != null) {
+                    client.CancelAsync();
+                    RaiseError(client, new WebException("Operation timed out: GET " + typeof(T).ToString()));
+                }
             };
 
             if (httpMethod.Equals("GET", StringComparison.OrdinalIgnoreCase))
@@ -268,32 +277,34 @@ namespace UntappdAPI
 
                 if (webEx != null)
                 {
-                    using (var resp = webEx.Response)
-                    using (var streamReader = new StreamReader(resp.GetResponseStream()))
-                    {
-                        errResponse.Reponse = resp;
-                        rawMessage = streamReader.ReadToEnd();
-                        if (!String.IsNullOrEmpty(rawMessage))
-                        {
-                            var json = JObject.Parse(rawMessage);
-                            if (json["result"] != null)
-                                errResponse.ErrorCode = json["result"].Value<String>();
-                            else if (json["http_code"] != null)
-                                errResponse.ErrorCode = json["http_code"].Value<String>();
-                            else
-                                errResponse.ErrorCode = webEx.Status.ToString();
+                    if (webEx.Response != null) {
+                        using (var resp = webEx.Response)
+                        using (var streamReader = new StreamReader(resp.GetResponseStream())) {
+                            errResponse.Reponse = resp;
+                            rawMessage = streamReader.ReadToEnd();
+                            if (!String.IsNullOrEmpty(rawMessage)) {
+                                var json = JObject.Parse(rawMessage);
+                                if (json["result"] != null)
+                                    errResponse.ErrorCode = json["result"].Value<String>();
+                                else if (json["http_code"] != null)
+                                    errResponse.ErrorCode = json["http_code"].Value<String>();
+                                else
+                                    errResponse.ErrorCode = webEx.Status.ToString();
 
-                            if (json["error"] != null)
-                                errResponse.ErrorMessage = json["error"].Value<String>();
-                            else
+                                if (json["error"] != null)
+                                    errResponse.ErrorMessage = json["error"].Value<String>();
+                                else
+                                    errResponse.ErrorMessage = webEx.Message;
+                            } else {
+                                errResponse.ErrorCode = webEx.Status.ToString();
                                 errResponse.ErrorMessage = webEx.Message;
+                                rawMessage = webEx.ToString();
+                            }
                         }
-                        else
-                        {
-                            errResponse.ErrorCode = webEx.Status.ToString();
-                            errResponse.ErrorMessage = webEx.Message;
-                            rawMessage = webEx.ToString();
-                        }
+                    } else {
+                        errResponse.ErrorCode = webEx.Status.ToString();
+                        errResponse.ErrorMessage = webEx.Message;
+                        rawMessage = webEx.ToString();
                     }
                 }
 
@@ -326,6 +337,12 @@ namespace UntappdAPI
                     {
                         var resp = JSONHelper.Deserialise<BeerInfoResponse>(result);
                         BeerInfoComplete(sender, new ResponseArgs<BeerInfoResponse>(resp, result));
+                    }
+                    break;
+                case "UntappdAPI.DataContracts.BreweryInfoResponse":
+                    if (BreweryInfoComplete != null) {
+                        var resp = JSONHelper.Deserialise<BreweryInfoResponse>(result);
+                        BreweryInfoComplete(sender, new ResponseArgs<BreweryInfoResponse>(resp, result));
                     }
                     break;
                 case "UntappdAPI.DataContracts.UserInfoResponse":

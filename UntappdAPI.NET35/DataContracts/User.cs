@@ -21,7 +21,9 @@ namespace UntappdAPI.DataContracts
         [DataMember(Name = "bio")]
         public string Bio { get; set; }
         [DataMember(Name = "is_friends")]
-        public bool? IsFriends { get; set; }
+        public int? IsFriendsValue {get; set;}
+        [DataMember(Name = "is_requested")]
+        public int? IsRequestedValue {get; set;}
         [DataMember(Name = "date_joined")]
         public string DateJoined { get; set; }
         [DataMember(Name = "total_badges")]
@@ -34,6 +36,18 @@ namespace UntappdAPI.DataContracts
         public int UniqueBeers { get; set; }
         [DataMember(Name = "created_beers")]
         public int CreatedBeers { get; set; }
+
+        public bool IsFriends {
+            get {
+                return IsFriendsValue.GetValueOrDefault(0) == 1;
+            }
+        }
+
+        public bool IsRequested {
+            get {
+                return IsRequestedValue.GetValueOrDefault(0) == 1;
+            }
+        }
 
         public string DisplayName
         {

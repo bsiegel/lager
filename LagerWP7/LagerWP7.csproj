@@ -66,6 +66,15 @@
     <Compile Include="BeerPage.xaml.cs">
       <DependentUpon>BeerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BreweryPage.xaml.cs">
+      <DependentUpon>BreweryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CheckinResultPage.xaml.cs">
+      <DependentUpon>CheckinResultPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserPage.xaml.cs">
+      <DependentUpon>UserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IStatusPage.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -74,10 +83,13 @@
     <Compile Include="StatusControl.xaml.cs">
       <DependentUpon>StatusControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utility\CheckinConverter.cs" />
     <Compile Include="Utility\CredentialUtility.cs" />
     <Compile Include="Utility\DescriptiveConverter.cs" />
     <Compile Include="ViewModels\BeerViewModel.cs" />
     <Compile Include="Utility\DistinctUserFeedComparer.cs" />
+    <Compile Include="ViewModels\BreweryViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Utility\VisibilityConverter.cs" />
@@ -90,6 +102,18 @@
     <Page Include="BeerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BreweryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CheckinResultPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>

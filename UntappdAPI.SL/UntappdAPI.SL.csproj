@@ -83,11 +83,20 @@
     <Compile Include="..\UntappdAPI.NET35\DataContracts\BeerSearchResult.cs">
       <Link>DataContracts\BeerSearchResult.cs</Link>
     </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\BreweryInfoResponse.cs">
+      <Link>DataContracts\BreweryInfoResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\BreweryInfoResult.cs">
+      <Link>DataContracts\BreweryInfoResult.cs</Link>
+    </Compile>
     <Compile Include="..\UntappdAPI.NET35\DataContracts\CheckinResponse.cs">
       <Link>DataContracts\CheckinResponse.cs</Link>
     </Compile>
     <Compile Include="..\UntappdAPI.NET35\DataContracts\ErrorResponse.cs">
       <Link>DataContracts\ErrorResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\UntappdAPI.NET35\DataContracts\TopBeerResult.cs">
+      <Link>DataContracts\TopBeerResult.cs</Link>
     </Compile>
     <Compile Include="..\UntappdAPI.NET35\DataContracts\TrendingResponse.cs">
       <Link>DataContracts\TrendingResponse.cs</Link>

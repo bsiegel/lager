@@ -62,7 +62,7 @@
                                         </ControlTemplate>
                                     </HyperlinkButton.Template>
                                 </HyperlinkButton>
-                                <HyperlinkButton Click="Brewery_Click" Margin="0,-6,12,0" Tag="{Binding IdTwo}">
+                                <HyperlinkButton Click="Brewery_Click" Margin="0,-3,12,0" Tag="{Binding IdTwo}">
                                     <HyperlinkButton.Template>
                                         <ControlTemplate>
                                             <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
@@ -97,7 +97,7 @@
                                                 </ControlTemplate>
                                             </HyperlinkButton.Template>
                                         </HyperlinkButton>
-                                        <label:LinkLabel Margin="12,-6,12,0" LinkMatchMethod="ByLinkPattern" LinkClick="LinkLabel_LinkClick" LinkStyle="{StaticResource PhoneTextNormalStyle}" TextStyle="{StaticResource PhoneTextSubtleStyle}" Text="{Binding Mode=OneWay, Converter={StaticResource DescriptiveConverter}}" />
+                                        <label:LinkLabel Margin="12,-3,12,0" LinkMatchMethod="ByLinkPattern" LinkClick="LinkLabel_LinkClick" LinkStyle="{StaticResource PhoneTextNormalStyle}" TextStyle="{StaticResource PhoneTextSubtleStyle}" Text="{Binding Mode=OneWay, Converter={StaticResource DescriptiveConverter}}" />
                                         <TextBlock Text="{Binding LineFour}" TextWrapping="Wrap" Margin="12,-3,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                                         <TextBlock Text="&#x201C;" FontSize="64" FontFamily="Georgia" TextWrapping="NoWrap" Margin="12,-6,12,-50" Visibility="{Binding LineFive, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource PhoneTextNormalStyle}"/>
                                         <TextBlock Text="{Binding LineFive}" TextWrapping="Wrap" Margin="38,0,12,0" Visibility="{Binding LineFive, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" FontSize="{StaticResource PhoneFontSizeSmall}"/>
@@ -157,7 +157,7 @@
                                             </ControlTemplate>
                                         </HyperlinkButton.Template>
                                     </HyperlinkButton>
-                                    <TextBlock Text="{Binding User.Location}" TextWrapping="Wrap" Margin="12,-6,12,0" FontSize="{StaticResource PhoneFontSizeSmall}" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                    <TextBlock Text="{Binding User.Location}" TextWrapping="Wrap" Margin="12,-3,12,0" FontSize="{StaticResource PhoneFontSizeSmall}" Style="{StaticResource PhoneTextSubtleStyle}"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -173,7 +173,7 @@
                                                     </ControlTemplate>
                                                 </HyperlinkButton.Template>
                                             </HyperlinkButton>
-                                            <HyperlinkButton Click="Brewery_Click" Tag="{Binding IdTwo}" Margin="0,-6,12,0">
+                                            <HyperlinkButton Click="Brewery_Click" Tag="{Binding IdTwo}" Margin="0,-3,12,0">
                                                 <HyperlinkButton.Template>
                                                     <ControlTemplate>
                                                         <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
@@ -227,7 +227,7 @@
                                             </ControlTemplate>
                                         </HyperlinkButton.Template>
                                     </HyperlinkButton>
-                                    <HyperlinkButton Click="Brewery_Click" Tag="{Binding IdTwo}" Margin="0,-6,12,0">
+                                    <HyperlinkButton Click="Brewery_Click" Tag="{Binding IdTwo}" Margin="0,-3,12,0">
                                         <HyperlinkButton.Template>
                                             <ControlTemplate>
                                                 <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>

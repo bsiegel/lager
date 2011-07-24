@@ -42,12 +42,6 @@ namespace LagerWP7 {
             };
             _client.UserFeedComplete += (sender, e) => {
                 if (e.Result.FeedType == "Friend") {
-                    //var results = (from r in e.Result.Results
-                    //              group r by r.User.UserName into g
-                    //              select g.OrderByDescending(i => DateTime.Parse(i.CreatedAt)).First()).ToList();
-                    //if (results.Count < 5) {
-                    //    e.Result.
-                    //}
                     this.Friends.Clear();
                     foreach (var result in e.Result.Results.OrderByDescending(i => DateTime.Parse(i.CreatedAt))) {
                         if (result != null) {
@@ -58,7 +52,6 @@ namespace LagerWP7 {
                                 IdTwo = result.BeerId.ToString(),
                                 LineThree = result.BreweryName.ToLower(),
                                 IdThree = result.BreweryId, 
-                                //LineTwo = String.Format("is enjoying a{0} {1} by {2}", _vowels.Contains(result.BeerName[0]) ? "n" : "", result.BeerName, result.BreweryName),
                                 LineFour = result.DisplayCreatedTimeAgo,
                                 Image = result.User.AvatarUrl,
                                 LineFive = String.IsNullOrEmpty(result.CheckinComment) ? null : result.CheckinComment.ToLower()
@@ -67,8 +60,7 @@ namespace LagerWP7 {
                     }
                     _status.HideProgress();
                 } else if (e.Result.FeedType == "User") {
-                    var first = e.Result.Results.First();
-                    if (first.User.UserName == UntappdUsername) {
+                    if (e.Result.Results.Length > 0) {
                         // profile
                         this.Recent.Clear();
                         foreach (var result in e.Result.Results.OrderByDescending(i => DateTime.Parse(i.CreatedAt))) {

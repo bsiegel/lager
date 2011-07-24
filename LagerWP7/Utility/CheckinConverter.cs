@@ -20,7 +20,9 @@ namespace LagerWP7 {
             if (model.IsTooFast) {
                 sb.Append("woah there, slow down buddy! you need to wait ");
                 sb.Append(model.TimeUntilAllowed);
-                sb.Append(" more minutes before you can check-in to another.");
+                sb.Append(" more minute");
+                sb.Append(model.TimeUntilAllowed == 1 ? "" : "s");
+                sb.Append(" before you can check-in to another.");
             } else if (model.Result != null && model.Result.ToLowerInvariant() == "success") {
                 sb.Append("you're having ");
                 if (_vowels.Contains(model.BeerDetails.Name[0])) {

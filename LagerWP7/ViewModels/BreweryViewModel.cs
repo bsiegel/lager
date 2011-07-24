@@ -25,7 +25,7 @@ namespace LagerWP7 {
                 var res = e.Result.Results;
                 res.Country = res.Country.ToUpper();
                 res.Name = res.Name.ToLower();
-                res.TwitterHandle = String.IsNullOrEmpty(res.TwitterHandle) ? null : "Twitter: @" + res.TwitterHandle.ToLower();
+                res.TwitterHandle = String.IsNullOrEmpty(res.TwitterHandle) ? null : "twitter: @" + res.TwitterHandle.ToLower();
                 foreach (var beer in res.TopBeers) {
                     beer.Name = beer.Name.ToLower();
                     beer.Style = beer.Style.ToLower();

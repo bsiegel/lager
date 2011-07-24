@@ -103,7 +103,7 @@
                                     </ControlTemplate>
                                 </HyperlinkButton.Template>
                             </HyperlinkButton>
-                            <TextBlock Text="{Binding Style}" Margin="12,-6,12,0" TextWrapping="NoWrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                            <TextBlock Text="{Binding Style}" Margin="12,-3,12,0" TextWrapping="NoWrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

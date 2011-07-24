@@ -119,6 +119,8 @@ namespace LagerWP7 {
 
             App.ViewModel.UntappdUsername = null;
             App.ViewModel.UntappdPassword = null;
+            _loginUsername.Text = "";
+            _loginPassword.Password = "";
 
             CredentialUtility.DeleteCredentials();
 

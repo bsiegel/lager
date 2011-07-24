@@ -91,7 +91,7 @@
                 </viewbox:Viewbox>
             </StackPanel>
             
-            <Button Grid.Row="3" Margin="0,17,0,0" Content="confirm your check-in" Click="Checkin_Click" />
+            <Button x:Name="ConfirmButton" Grid.Row="3" Margin="0,17,0,0" Content="confirm your check-in" Click="Checkin_Click" />
         </Grid>
     </Grid>
  

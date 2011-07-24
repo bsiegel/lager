@@ -14,7 +14,8 @@ namespace UntappdAPI.DataContracts
         [DataMember(Name = "is_too_far_away")]
         public bool IsTooFarAway { get; set; }
         [DataMember(Name = "rapid_fire")]
-        public bool IsTooFast { get; set; }
+        public string RapidFire { get; set; }
+        public bool IsTooFast { get { return !(RapidFire == "false"); } }
         [DataMember(Name = "rapid_fire_time_left")]
         public int TimeUntilAllowed { get; set; }
         [DataMember(Name = "beer_details")]

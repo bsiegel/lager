@@ -7,6 +7,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using UntappdAPI.DataContracts;
 using System.Windows.Threading;
+using System.Net.NetworkInformation;
 
 
 namespace UntappdAPI
@@ -197,6 +198,11 @@ namespace UntappdAPI
 
         private void GetResponseMessage<T>(string methodName, Dictionary<string, string> optionalParams, string httpMethod)
         {
+            if (!NetworkInterface.GetIsNetworkAvailable()) {
+                RaiseError(this, new Exception("Network is not available."));
+                return;
+            }
+
             var client = new WebClient();
             client.Encoding = Encoding.UTF8;
             if (!String.IsNullOrEmpty(UserName))

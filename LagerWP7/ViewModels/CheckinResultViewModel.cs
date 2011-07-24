@@ -71,7 +71,7 @@ namespace LagerWP7 {
             get {
                 if (Result == null || String.IsNullOrEmpty(Result.Result))
                     return "check-in in progress";
-                else if (Result.IsTooFarAway || Result.IsTooFast || Result.Result.ToLowerInvariant() != "success")
+                else if (Result.Result.ToLowerInvariant() != "success")
                     return "check-in unsuccessful";
                 else
                     return "check-in successful";

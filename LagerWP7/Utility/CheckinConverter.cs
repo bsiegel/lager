@@ -17,13 +17,14 @@ namespace LagerWP7 {
             var model = (CheckinResponse) value;
             var sb = new StringBuilder();
 
-            if (model.IsTooFast) {
-                sb.Append("woah there, slow down buddy! you need to wait ");
-                sb.Append(model.TimeUntilAllowed);
-                sb.Append(" more minute");
-                sb.Append(model.TimeUntilAllowed == 1 ? "" : "s");
-                sb.Append(" before you can check-in to another.");
-            } else if (model.Result != null && model.Result.ToLowerInvariant() == "success") {
+            //if (model.IsTooFast) {
+            //    sb.Append("woah there, slow down buddy! you need to wait ");
+            //    sb.Append(model.TimeUntilAllowed);
+            //    sb.Append(" more minute");
+            //    sb.Append(model.TimeUntilAllowed == 1 ? "" : "s");
+            //    sb.Append(" before you can check-in to another.");
+            //} else
+            if (model.Result != null && model.Result.ToLowerInvariant() == "success") {
                 sb.Append("you're having ");
                 if (_vowels.Contains(model.BeerDetails.Name[0])) {
                     sb.Append("an ");
@@ -32,7 +33,7 @@ namespace LagerWP7 {
                 }
                 sb.Append(model.BeerDetails.Name);
                 sb.Append(" by ");
-                sb.Append(model.BeerDetails.Brewery);
+                sb.Append(model.BeerDetails.Brewery.TrimEnd('.'));
                 sb.Append(". this is your ");
                 sb.Append(model.CheckinTotals.BeerMonth);
                 sb.Append(" ");

@@ -65,13 +65,19 @@
             <TextBlock Grid.Row="1" Margin="12,0,0,0" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding Result, Mode=OneWay, Converter={StaticResource CheckinConverter}}" />
             <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,0,0,0" Visibility="{Binding HasBadges, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
                 <TextBlock Margin="12,17,0,0" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="you got some swag!" />
-                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                    <Image Height="90" Width="90" Margin="12,0,0,0" VerticalAlignment="Top" Source="{Binding Result.Badges.ImgSmall}"/>
-                    <StackPanel Margin="0,0,0,0" HorizontalAlignment="Stretch" Width="356">
-                        <TextBlock Text="{Binding Result.Badges.Name}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
-                        <TextBlock Text="{Binding Result.Badges.Description}" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
-                    </StackPanel>
-                </StackPanel>
+                <ListBox Margin="0,12,0,0" ItemsSource="{Binding Result.Badges}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                <Image Height="90" Width="90" Margin="12,0,0,0" VerticalAlignment="Top" Source="{Binding ImgSmall}"/>
+                                <StackPanel Margin="0,0,0,0" HorizontalAlignment="Stretch" Width="356">
+                                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" LineHeight="30" LineStackingStrategy="BlockLineHeight" Style="{StaticResource PhoneTextLargeStyle}"/>
+                                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
             <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0,0,0,0">
                 <TextBlock Margin="12,17,0,0" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="recommendations" />

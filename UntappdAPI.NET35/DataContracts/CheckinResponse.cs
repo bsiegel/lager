@@ -10,7 +10,7 @@ namespace UntappdAPI.DataContracts
         [DataMember(Name = "checkin_total")]
         public CheckinTotal CheckinTotals { get; set; }
         [DataMember(Name = "badges")]
-        public Badge Badges { get; set; }
+        public Badge[] Badges { get; set; }
         [DataMember(Name = "is_too_far_away")]
         public bool IsTooFarAway { get; set; }
         [DataMember(Name = "rapid_fire")]

@@ -24,14 +24,12 @@ namespace LagerWP7 {
                 var res = e.Result;
                 res.BeerDetails.Name = res.BeerDetails.Name.ToLowerInvariant();
                 res.BeerDetails.Brewery = res.BeerDetails.Brewery.ToLowerInvariant();
-                if (res.Badges != null) {
-                    if (res.Badges.Name != null) {
-                        res.Badges.Name = res.Badges.Name.ToLowerInvariant();
-                    }
-                    if (res.Badges.Description != null) {
-                        res.Badges.Description = res.Badges.Description.ToLowerInvariant();
-                    }
+
+                foreach (var badge in res.Badges) {
+                    badge.Name = badge.Name.ToLowerInvariant();
+                    badge.Description = badge.Description.ToLowerInvariant();
                 }
+
                 foreach (var rec in res.Recommendations) {
                     rec.Name = rec.Name.ToLowerInvariant();
                     rec.BreweryName = rec.BreweryName.ToLowerInvariant();
@@ -82,7 +80,7 @@ namespace LagerWP7 {
 
         public bool HasBadges {
             get {
-                return Result != null && Result.Badges != null && !String.IsNullOrEmpty(Result.Badges.Name);
+                return Result != null && Result.Badges != null && Result.Badges.Length > 0;
             }
         }
 

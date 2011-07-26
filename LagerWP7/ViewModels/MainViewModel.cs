@@ -13,10 +13,10 @@ namespace LagerWP7 {
         private StatusControl _status;
 
         public MainViewModel() {
-            this.Trending = new ObservableCollection<ItemViewModel>();
-            this.Friends = new ObservableCollection<ItemViewModel>();
-            this.Recent = new ObservableCollection<ItemViewModel>();
-            this.Results = new ObservableCollection<ItemViewModel>();
+            Trending = new ObservableCollection<ItemViewModel>();
+            Friends = new ObservableCollection<ItemViewModel>();
+            Recent = new ObservableCollection<ItemViewModel>();
+            Results = new ObservableCollection<ItemViewModel>();
         }
 
         public void InitClient(StatusControl status) {
@@ -29,9 +29,9 @@ namespace LagerWP7 {
             }
             
             _client.TrendingComplete += (sender, e) => {
-                this.Trending.Clear();
+                Trending.Clear();
                 foreach (var result in e.Result.Results) {
-                    this.Trending.Add(new ItemViewModel() {
+                    Trending.Add(new ItemViewModel() {
                         LineOne = result.BeerName.ToLower(),
                         IdOne = result.BeerId.ToString(),
                         LineTwo = result.BreweryName.ToLower(),
@@ -42,10 +42,10 @@ namespace LagerWP7 {
             };
             _client.UserFeedComplete += (sender, e) => {
                 if (e.Result.FeedType == "Friend") {
-                    this.Friends.Clear();
+                    Friends.Clear();
                     foreach (var result in e.Result.Results.OrderByDescending(i => DateTime.Parse(i.CreatedAt))) {
                         if (result != null) {
-                            this.Friends.Add(new ItemViewModel() {
+                            Friends.Add(new ItemViewModel() {
                                 LineOne = result.User.DisplayName.ToLower(),
                                 IdOne = result.User.UserName,
                                 LineTwo = result.BeerName.ToLower(),
@@ -62,10 +62,10 @@ namespace LagerWP7 {
                 } else if (e.Result.FeedType == "User") {
                     if (e.Result.Results.Length > 0) {
                         // profile
-                        this.Recent.Clear();
+                        Recent.Clear();
                         foreach (var result in e.Result.Results.OrderByDescending(i => DateTime.Parse(i.CreatedAt))) {
                             if (result != null) {
-                                this.Recent.Add(new ItemViewModel() {
+                                Recent.Add(new ItemViewModel() {
                                     LineOne = result.BeerName.ToLower(),
                                     IdOne = result.BeerId.ToString(),
                                     LineTwo = result.BreweryName.ToLower(),
@@ -91,9 +91,9 @@ namespace LagerWP7 {
             };
 
             _client.BeerSearchResultsComplete += (sender, e) => {
-                this.Results.Clear();
+                Results.Clear();
                 foreach (var result in e.Result.Results) {
-                    this.Results.Add(new ItemViewModel() {
+                    Results.Add(new ItemViewModel() {
                         LineOne = result.Name.ToLower(),
                         IdOne = result.BeerId.ToString(),
                         LineTwo = result.BreweryName.ToLower(),
@@ -118,7 +118,7 @@ namespace LagerWP7 {
             }
         }
 
-        public ImageBrush PanoramaBackgroundImage {
+        public static ImageBrush PanoramaBackgroundImage {
             get {
                 var url = App.LightThemeEnabled ? "PanoramaBackgroundLight.png" : "PanoramaBackgroundDark.png";
                 var brush = new ImageBrush {

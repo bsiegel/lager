@@ -7,7 +7,7 @@ using UntappdAPI.DataContracts;
 
 namespace LagerWP7 {
     public class CheckinConverter : IValueConverter {
-        private List<char> _vowels = new List<char> { 'a', 'e', 'i', 'o', 'u' };
+        private static readonly List<char> _vowels = new List<char> { 'a', 'e', 'i', 'o', 'u' };
 
         public object Convert(
             object value,
@@ -26,11 +26,7 @@ namespace LagerWP7 {
             //} else
             if (model.Result != null && model.Result.ToLowerInvariant() == "success") {
                 sb.Append("you're having ");
-                if (_vowels.Contains(model.BeerDetails.Name[0])) {
-                    sb.Append("an ");
-                } else {
-                    sb.Append("a ");
-                }
+                sb.Append(_vowels.Contains(model.BeerDetails.Name[0]) ? "an " : "a ");
                 sb.Append(model.BeerDetails.Name);
                 sb.Append(" by ");
                 sb.Append(model.BeerDetails.Brewery.TrimEnd('.'));

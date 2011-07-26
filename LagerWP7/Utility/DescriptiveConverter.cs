@@ -6,8 +6,8 @@ using System.Windows.Data;
 
 namespace LagerWP7 {
     public class DescriptiveConverter : IValueConverter {
-        private List<char> _vowels = new List<char> { 'a', 'e', 'i', 'o', 'u' };
-        private List<string> _verbs = new List<string> {
+        private static readonly List<char> _vowels = new List<char> { 'a', 'e', 'i', 'o', 'u' };
+        private static readonly List<string> _verbs = new List<string> {
             "drinking",
             "sipping",
             "enjoying",
@@ -27,11 +27,7 @@ namespace LagerWP7 {
 
             sb.Append("is ");
             sb.Append(_verbs[new Random().Next(_verbs.Count)]);
-            if (_vowels.Contains(model.LineTwo[0])) {
-                sb.Append(" an ");
-            } else {
-                sb.Append(" a ");
-            }
+            sb.Append(_vowels.Contains(model.LineTwo[0]) ? " an " : " a ");
 
             sb.Append("[link=\"BeerPage.xaml?id=");
             sb.Append(model.IdTwo);

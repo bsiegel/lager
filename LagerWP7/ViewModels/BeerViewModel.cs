@@ -75,7 +75,7 @@ namespace LagerWP7 {
 
         public bool SignedOut {
             get {
-                return !this.SignedIn;
+                return !SignedIn;
             }
         }
 

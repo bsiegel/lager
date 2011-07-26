@@ -34,10 +34,10 @@ namespace LagerWP7 {
             };
 
             _client.UserFeedComplete += (sender, e) => {
-                this.Recent.Clear();
+                Recent.Clear();
                 foreach (var result in e.Result.Results.OrderByDescending(i => DateTime.Parse(i.CreatedAt))) {
                     if (result != null) {
-                        this.Recent.Add(new ItemViewModel() {
+                        Recent.Add(new ItemViewModel() {
                             LineOne = result.BeerName.ToLower(),
                             IdOne = result.BeerId.ToString(),
                             LineTwo = result.BreweryName.ToLower(),

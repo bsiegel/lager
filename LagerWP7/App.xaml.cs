@@ -109,11 +109,6 @@ namespace LagerWP7 {
             if (System.Diagnostics.Debugger.IsAttached) {
                 // An unhandled exception has occurred; break into the debugger
                 System.Diagnostics.Debugger.Break();
-            } else {
-                try {
-                    throw e.ExceptionObject;
-                } catch (Exception) {
-                }
             }
             e.Handled = true;
         }

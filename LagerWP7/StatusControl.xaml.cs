@@ -5,12 +5,15 @@ using System.Windows.Threading;
 
 namespace LagerWP7 {
     public partial class StatusControl : UserControl, INotifyPropertyChanged {
+        private int _loadCount = 0;
+        private DispatcherTimer _timer;
+
         public StatusControl() {
             InitializeComponent();
 
-            this.DataContext = this;
+            DataContext = this;
 
-            this._timer = new DispatcherTimer {
+            _timer = new DispatcherTimer {
                 Interval = TimeSpan.FromSeconds(5)
             };
 
@@ -25,8 +28,6 @@ namespace LagerWP7 {
             };
         }
 
-        private int _loadCount = 0;
-        private DispatcherTimer _timer;
 
         public void ShowProgress(int count = 1) {
             if (_loadCount <= 0) {
